@@ -1,0 +1,44 @@
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Mail } from "lucide-react";
+
+const CTASection = () => {
+  return (
+    <section className="relative py-24 md:py-32 overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-t from-primary/5 via-background to-background" />
+      
+      {/* Animated orbs */}
+      <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
+      <div className="absolute top-1/2 right-1/4 w-64 h-64 bg-accent/10 rounded-full blur-3xl" />
+      
+      <div className="container relative z-10 px-4 md:px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Decorative border */}
+          <div className="relative p-px rounded-3xl bg-gradient-to-r from-primary/50 via-accent/50 to-primary/50">
+            <div className="card-gradient rounded-3xl p-10 md:p-16">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-6">
+                ¿Listo para <span className="text-gradient">transformar</span> tu negocio?
+              </h2>
+              <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
+                Conversemos sobre cómo podemos ayudarte a automatizar, escalar y optimizar tus sistemas.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button variant="hero" size="lg">
+                  <Mail className="w-5 h-5 mr-2" />
+                  Contactar
+                </Button>
+                <Button variant="glow" size="lg">
+                  Ver Proyectos
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default CTASection;
