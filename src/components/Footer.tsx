@@ -1,4 +1,5 @@
 import { Github, Linkedin, Twitter } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -12,9 +13,14 @@ const Footer = () => {
           </div>
           
           {/* Tagline */}
-          <p className="text-sm text-muted-foreground text-center">
-            Systems • Journey • Lab — Innovación continua
-          </p>
+          <div className="flex flex-col items-center gap-1">
+            <p className="text-sm text-muted-foreground text-center">
+              Systems • Journey • Lab — Innovación continua
+            </p>
+            <Link to="/privacy-policy" className="text-xs text-muted-foreground hover:text-primary transition-colors">
+              Privacy Policy
+            </Link>
+          </div>
           
           {/* Social links */}
           <div className="flex items-center gap-4">
