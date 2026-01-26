@@ -8,20 +8,26 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <span className="text-2xl font-display font-bold text-gradient">SysJoL</span>
-            <span className="text-sm text-muted-foreground">© 2024</span>
+            <img src="/favicon.png" alt="SysJoL Logo" className="w-8 h-8" />
+            <span className="text-2xl font-display font-bold text-gradient">
+              SysJoL
+            </span>
+            <span className="text-sm text-muted-foreground">© 2026</span>
           </div>
-          
+
           {/* Tagline */}
           <div className="flex flex-col items-center gap-1">
             <p className="text-sm text-muted-foreground text-center">
               Systems • Journey • Lab — Innovación continua
             </p>
-            <Link to="/privacy-policy" className="text-xs text-muted-foreground hover:text-primary transition-colors">
+            <Link
+              to="/privacy-policy"
+              className="text-xs text-muted-foreground hover:text-primary transition-colors"
+            >
               Privacy Policy
             </Link>
           </div>
-          
+
           {/* Social links */}
           <div className="flex items-center gap-4">
             {[
