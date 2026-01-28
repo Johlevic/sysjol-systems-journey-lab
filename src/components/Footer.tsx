@@ -1,4 +1,4 @@
-import { Github, Linkedin, Twitter } from "lucide-react";
+import { Github, Mail, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -31,13 +31,24 @@ const Footer = () => {
           {/* Social links */}
           <div className="flex items-center gap-4">
             {[
-              { icon: Twitter, href: "#" },
-              { icon: Linkedin, href: "#" },
-              { icon: Github, href: "#" },
+              {
+                icon: Phone,
+                href: "https://wa.me/51980609176",
+                label: "WhatsApp",
+              },
+              { icon: Mail, href: "mailto:sysjol@outlook.es", label: "Email" },
+              {
+                icon: Github,
+                href: "https://github.com/Johlevic?tab=repositories",
+                label: "GitHub",
+              },
             ].map((social, index) => (
               <a
                 key={index}
                 href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.label}
                 className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors duration-300"
               >
                 <social.icon className="w-5 h-5" />

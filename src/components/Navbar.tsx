@@ -53,9 +53,11 @@ const Navbar = () => {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Button variant="glow" size="sm">
-              Contacto
-            </Button>
+            <a href="mailto:sysjol@outlook.es">
+              <Button variant="glow" size="sm">
+                Contacto
+              </Button>
+            </a>
           </div>
 
           {/* Mobile Menu Button */}
@@ -85,9 +87,11 @@ const Navbar = () => {
                   {link.label}
                 </a>
               ))}
-              <Button variant="glow" size="sm" className="w-full mt-2">
-                Contacto
-              </Button>
+              <a href="mailto:sysjol@outlook.es" className="w-full mt-2">
+                <Button variant="glow" size="sm" className="w-full">
+                  Contacto
+                </Button>
+              </a>
             </nav>
           </div>
         )}
