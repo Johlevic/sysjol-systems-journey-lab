@@ -1,8 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
@@ -39,7 +39,11 @@
     /* Custom design tokens */
     --glow-primary: 199 89% 48%;
     --glow-accent: 280 70% 55%;
-    --gradient-primary: linear-gradient(135deg, hsl(199 89% 48%), hsl(280 70% 55%));
+    --gradient-primary: linear-gradient(
+      135deg,
+      hsl(199 89% 48%),
+      hsl(280 70% 55%)
+    );
     --gradient-dark: linear-gradient(180deg, hsl(222 47% 6%), hsl(222 47% 3%));
     --gradient-card: linear-gradient(145deg, hsl(222 47% 10%), hsl(222 47% 6%));
     --shadow-glow: 0 0 40px hsl(199 89% 48% / 0.3);
@@ -47,8 +51,8 @@
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
     /* Fonts */
-    --font-display: 'Orbitron', monospace;
-    --font-body: 'Rajdhani', sans-serif;
+    --font-display: "Orbitron", monospace;
+    --font-body: "Rajdhani", sans-serif;
   }
 
   .dark {
@@ -67,7 +71,12 @@
     font-family: var(--font-body);
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-display);
   }
 }
@@ -126,7 +135,8 @@
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px);
   }
   50% {
@@ -135,7 +145,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     box-shadow: 0 0 20px hsl(var(--primary) / 0.5);
   }
@@ -158,13 +169,61 @@
 
 /* Geometric background pattern */
 .geometric-bg {
-  background-image: 
-    linear-gradient(30deg, hsl(var(--primary) / 0.03) 12%, transparent 12.5%, transparent 87%, hsl(var(--primary) / 0.03) 87.5%, hsl(var(--primary) / 0.03)),
-    linear-gradient(150deg, hsl(var(--primary) / 0.03) 12%, transparent 12.5%, transparent 87%, hsl(var(--primary) / 0.03) 87.5%, hsl(var(--primary) / 0.03)),
-    linear-gradient(30deg, hsl(var(--primary) / 0.03) 12%, transparent 12.5%, transparent 87%, hsl(var(--primary) / 0.03) 87.5%, hsl(var(--primary) / 0.03)),
-    linear-gradient(150deg, hsl(var(--primary) / 0.03) 12%, transparent 12.5%, transparent 87%, hsl(var(--primary) / 0.03) 87.5%, hsl(var(--primary) / 0.03)),
-    linear-gradient(60deg, hsl(var(--accent) / 0.02) 25%, transparent 25.5%, transparent 75%, hsl(var(--accent) / 0.02) 75%, hsl(var(--accent) / 0.02)),
-    linear-gradient(60deg, hsl(var(--accent) / 0.02) 25%, transparent 25.5%, transparent 75%, hsl(var(--accent) / 0.02) 75%, hsl(var(--accent) / 0.02));
+  background-image:
+    linear-gradient(
+      30deg,
+      hsl(var(--primary) / 0.03) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      hsl(var(--primary) / 0.03) 87.5%,
+      hsl(var(--primary) / 0.03)
+    ),
+    linear-gradient(
+      150deg,
+      hsl(var(--primary) / 0.03) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      hsl(var(--primary) / 0.03) 87.5%,
+      hsl(var(--primary) / 0.03)
+    ),
+    linear-gradient(
+      30deg,
+      hsl(var(--primary) / 0.03) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      hsl(var(--primary) / 0.03) 87.5%,
+      hsl(var(--primary) / 0.03)
+    ),
+    linear-gradient(
+      150deg,
+      hsl(var(--primary) / 0.03) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      hsl(var(--primary) / 0.03) 87.5%,
+      hsl(var(--primary) / 0.03)
+    ),
+    linear-gradient(
+      60deg,
+      hsl(var(--accent) / 0.02) 25%,
+      transparent 25.5%,
+      transparent 75%,
+      hsl(var(--accent) / 0.02) 75%,
+      hsl(var(--accent) / 0.02)
+    ),
+    linear-gradient(
+      60deg,
+      hsl(var(--accent) / 0.02) 25%,
+      transparent 25.5%,
+      transparent 75%,
+      hsl(var(--accent) / 0.02) 75%,
+      hsl(var(--accent) / 0.02)
+    );
   background-size: 80px 140px;
-  background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+  background-position:
+    0 0,
+    0 0,
+    40px 70px,
+    40px 70px,
+    0 0,
+    40px 70px;
 }

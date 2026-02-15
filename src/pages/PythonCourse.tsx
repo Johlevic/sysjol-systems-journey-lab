@@ -1,0 +1,521 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import {
+  Calendar,
+  Clock,
+  BookOpen,
+  User,
+  Mail,
+  Phone,
+  CheckCircle2,
+  Send,
+  ArrowLeft,
+  Award,
+  Infinity,
+  Star,
+  Briefcase,
+} from "lucide-react";
+import { Link } from "react-router-dom";
+import emailjs from "@emailjs/browser";
+import { toast } from "sonner";
+
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
+const formSchema = z.object({
+  name: z.string().min(2, "El nombre debe tener al menos 2 caracteres."),
+  email: z.string().email("Correo electrónico inválido."),
+  phone: z.string().min(9, "El número debe tener al menos 9 dígitos."),
+});
+
+const modules = [
+  {
+    title: "Módulo 1: Ecosistema y Estructura",
+    items: [
+      "Uso de Módulos y Paquetes para organizar proyectos.",
+      "Manejo de PIP (gestor de paquetes) e instalación de librerías.",
+    ],
+  },
+  {
+    title: "Módulo 2: Manipulación de Datos y Robustez",
+    items: [
+      "Dominio de Cadenas (Strings) y métodos avanzados de Listas.",
+      "Gestión de Excepciones: programación a prueba de errores.",
+    ],
+  },
+  {
+    title: "Módulo 3: Paradigma Profesional",
+    items: [
+      "Programación Orientada a Objetos (POO): Clases y Objetos.",
+      "Herencia y Polimorfismo: bases del software moderno.",
+    ],
+  },
+  {
+    title: "Módulo 4: Herramientas de Sistema y Avanzadas",
+    items: [
+      "Lógica avanzada: Generadores, iteradores y closures.",
+      "Sistema de archivos: Procesamiento de texto y binarios.",
+      "Librerías estándar: os, time, datetime, calendar.",
+    ],
+  },
+];
+
+const PythonCourse = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+    },
+  });
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsSubmitting(true);
+    setIsSuccess(false);
+    setProgress(0);
+
+    // Simulate progress
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 90) {
+          clearInterval(interval);
+          return 90;
+        }
+        return prev + 10;
+      });
+    }, 100);
+
+    // Credentials from environment variables
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateNotificationId = import.meta.env
+      .VITE_EMAILJS_TEMPLATE_NOTIFICATION_ID;
+    const templateConfirmationId = import.meta.env
+      .VITE_EMAILJS_TEMPLATE_CONFIRMATION_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (
+      !serviceId ||
+      !templateNotificationId ||
+      !templateConfirmationId ||
+      !publicKey
+    ) {
+      clearInterval(interval);
+      toast.error(
+        "Error de configuración: Faltan las credenciales de EmailJS.",
+      );
+      console.error(
+        "Faltan variables de entorno para EmailJS. Asegúrate de reiniciar el servidor.",
+      );
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      // 1. Send Notification to Admin
+      await emailjs.send(
+        serviceId,
+        templateNotificationId,
+        {
+          from_name: values.name,
+          from_email: values.email,
+          phone: values.phone,
+          message: `Nuevo registro para curso Python.\nNombre: ${values.name}\nEmail: ${values.email}\nTeléfono: ${values.phone}`,
+        },
+        publicKey,
+      );
+
+      // 2. Send Confirmation to Student
+      await emailjs.send(
+        serviceId,
+        templateConfirmationId,
+        {
+          to_name: values.name,
+          to_email: values.email,
+          reply_to: "sysjol@gmail.com",
+        },
+        publicKey,
+      );
+
+      // Complete progress and show success
+      clearInterval(interval);
+      setProgress(100);
+
+      // Short delay to show 100% before showing checkmark
+      setTimeout(() => {
+        setIsSuccess(true);
+        toast.success(
+          "¡Registro exitoso! Revisa tu correo para la confirmación.",
+        );
+        form.reset();
+
+        // Reset state after 3 seconds to allow new submissions
+        setTimeout(() => {
+          setIsSubmitting(false);
+          setIsSuccess(false);
+          setProgress(0);
+        }, 3000);
+      }, 500);
+    } catch (error) {
+      clearInterval(interval);
+      console.error("EmailJS Error:", error);
+      toast.error("Hubo un error al procesar el registro. Intentalo de nuevo.");
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-background text-foreground font-body">
+      <Navbar />
+
+      {/* Header */}
+      <section className="relative py-20 md:py-32 overflow-hidden geometric-bg">
+        <div className="container relative z-10 px-4 md:px-6 text-center">
+          <div className="absolute top-4 left-4 md:top-8 md:left-8">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 text-muted-foreground hover:text-python-yellow transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Volver al Inicio
+            </Link>
+          </div>
+
+          <div className="flex justify-center mb-8">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"
+              alt="Python Logo"
+              className="w-24 h-24 animate-float drop-shadow-[0_0_15px_rgba(48,105,152,0.5)]"
+            />
+          </div>
+
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-python-blue/10 border border-python-blue/20 backdrop-blur-sm mb-8">
+            <span className="text-sm font-medium text-python-blue md:text-python-yellow">
+              Curso Intensivo
+            </span>
+          </div>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold mb-6">
+            Curso Profesional de{" "}
+            <span className="text-python-blue">Python</span>
+          </h1>
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
+            Lleva tus habilidades de programación al siguiente nivel con nuestro
+            programa intensivo de 4 semanas.
+          </p>
+        </div>
+      </section>
+
+      {/* Schedule & Info */}
+      <section className="py-16 md:py-24 bg-secondary/5">
+        <div className="container px-4 md:px-6">
+          <div className="grid md:grid-cols-2 gap-12 items-start">
+            {/* Schedule Card */}
+            <Card className="bg-card/50 backdrop-blur border-white/5">
+              <CardHeader>
+                <CardTitle className="text-2xl font-display flex items-center gap-2">
+                  <Calendar className="text-python-yellow" />
+                  Cronograma y Horarios
+                </CardTitle>
+                <CardDescription>
+                  Entrenamiento enfocado y práctico
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-white/5">
+                  <Calendar className="w-5 h-5 text-python-blue mt-1" />
+                  <div>
+                    <h4 className="font-bold text-lg">Duración</h4>
+                    <p className="text-muted-foreground">
+                      Del miércoles 18 de febrero al viernes 13 de marzo.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-white/5">
+                  <Clock className="w-5 h-5 text-python-blue mt-1" />
+                  <div>
+                    <h4 className="font-bold text-lg">Horarios</h4>
+                    <div className="space-y-2 mt-2">
+                      <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                        <span>Miércoles</span>
+                        <span className="text-python-yellow">
+                          4:00 PM - 7:00 PM
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center pt-1">
+                        <span>Viernes</span>
+                        <span className="text-python-yellow">
+                          3:00 PM - 6:00 PM
+                        </span>
+                      </div>
+                    </div>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      6 horas semanales de instrucción directa.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Syllabus */}
+            <div className="space-y-6">
+              <h2 className="text-3xl font-display font-bold flex items-center gap-2">
+                <BookOpen className="text-python-blue" />
+                Plan de Estudios
+              </h2>
+              <Accordion type="single" collapsible className="w-full">
+                {modules.map((module, index) => (
+                  <AccordionItem
+                    key={index}
+                    value={`item-${index}`}
+                    className="border-white/10"
+                  >
+                    <AccordionTrigger className="text-lg font-medium hover:text-python-yellow transition-colors">
+                      {module.title}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-muted-foreground">
+                      <ul className="space-y-2">
+                        {module.items.map((item, i) => (
+                          <li key={i} className="flex items-start gap-2">
+                            <CheckCircle2 className="w-4 h-4 text-python-blue shrink-0 mt-1" />
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Premium Benefits */}
+      <section className="py-16 md:py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-python-yellow/5" />
+        <div className="container px-4 md:px-6 relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-display font-bold mb-6">
+              Beneficios <span className="text-python-yellow">Premium</span>
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              No es solo un curso, es una experiencia de transformación
+              profesional diseñada para tu éxito.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Card className="bg-card/50 backdrop-blur border-python-yellow/30 hover:border-python-yellow/60 transition-all hover:shadow-[0_0_30px_-5px_rgba(255,212,59,0.2)] group">
+              <CardHeader>
+                <Infinity className="w-10 h-10 text-python-yellow mb-4 group-hover:scale-110 transition-transform" />
+                <CardTitle>Acceso de por Vida</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Materiales, grabaciones y actualizaciones futuras disponibles
+                  para siempre. Aprende a tu ritmo.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-card/50 backdrop-blur border-python-yellow/30 hover:border-python-yellow/60 transition-all hover:shadow-[0_0_30px_-5px_rgba(255,212,59,0.2)] group">
+              <CardHeader>
+                <Star className="w-10 h-10 text-python-yellow mb-4 group-hover:scale-110 transition-transform" />
+                <CardTitle>Mentoría Personalizada</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Apoyo directo y resolución de dudas conmigo. No estarás solo
+                  en tu proceso de aprendizaje.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-card/50 backdrop-blur border-python-yellow/30 hover:border-python-yellow/60 transition-all hover:shadow-[0_0_30px_-5px_rgba(255,212,59,0.2)] group">
+              <CardHeader>
+                <Award className="w-10 h-10 text-python-yellow mb-4 group-hover:scale-110 transition-transform" />
+                <CardTitle>Certificación Oficial</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Diploma digital que valida tus habilidades y conocimientos
+                  ante empleadores y clientes.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-card/50 backdrop-blur border-python-yellow/30 hover:border-python-yellow/60 transition-all hover:shadow-[0_0_30px_-5px_rgba(255,212,59,0.2)] group">
+              <CardHeader>
+                <Briefcase className="w-10 h-10 text-python-yellow mb-4 group-hover:scale-110 transition-transform" />
+                <CardTitle>Proyectos Reales</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Construye un portafolio sólido solucionando problemas reales
+                  del mercado laboral actual.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Form */}
+      <section className="py-20 md:py-32 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-t from-python-blue/5 to-transparent" />
+        <div className="container px-4 md:px-6 relative z-10">
+          <div className="max-w-xl mx-auto">
+            <div className="text-center mb-10">
+              <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+                Asegura tu vacante
+              </h2>
+              <p className="text-muted-foreground">
+                Completa el formulario para registrarte. Te enviaremos los
+                detalles de pago y acceso a tu correo.
+              </p>
+            </div>
+
+            <Card className="border-python-blue/20 bg-card/80 backdrop-blur shadow-[0_0_40px_-10px_rgba(48,105,152,0.1)]">
+              <CardContent className="pt-6">
+                <Form {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-6"
+                  >
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Nombre Completo</FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <User className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                              <Input
+                                placeholder="Juan Pérez"
+                                className="pl-10"
+                                {...field}
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Correo Electrónico</FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Mail className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                              <Input
+                                placeholder="juan@ejemplo.com"
+                                className="pl-10"
+                                {...field}
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="phone"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Celular / WhatsApp</FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Phone className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                              <Input
+                                placeholder="987654321"
+                                className="pl-10"
+                                {...field}
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    {isSuccess ? (
+                      <div className="flex flex-col items-center justify-center p-6 bg-green-500/10 border border-green-500/20 rounded-lg animate-fade-up">
+                        <CheckCircle2 className="w-12 h-12 text-green-500 mb-2" />
+                        <span className="text-xl font-bold text-green-500">
+                          ¡Inscripción Confirmada!
+                        </span>
+                      </div>
+                    ) : isSubmitting ? (
+                      <div className="space-y-3 py-2">
+                        <div className="flex justify-between text-sm font-medium text-muted-foreground">
+                          <span>Procesando inscripción...</span>
+                          <span>{progress}%</span>
+                        </div>
+                        <Progress
+                          value={progress}
+                          className="h-2 bg-secondary"
+                        />
+                      </div>
+                    ) : (
+                      <Button
+                        type="submit"
+                        className="w-full bg-python-blue hover:bg-python-blue/90 text-white"
+                        size="lg"
+                        disabled={isSubmitting}
+                      >
+                        Inscribirme Ahora
+                        <Send className="w-4 h-4 ml-2" />
+                      </Button>
+                    )}
+                  </form>
+                </Form>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default PythonCourse;

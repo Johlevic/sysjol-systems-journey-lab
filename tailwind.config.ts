@@ -2,7 +2,12 @@ import type { Config } from "tailwindcss";
 
 export default {
   darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -14,8 +19,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['Orbitron', 'monospace'],
-        body: ['Rajdhani', 'sans-serif'],
+        display: ["Orbitron", "monospace"],
+        body: ["Rajdhani", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -23,6 +28,8 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        "python-blue": "#306998",
+        "python-yellow": "#FFD43B",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -71,18 +78,18 @@ export default {
           to: { height: "0" },
         },
         "glow-pulse": {
-          "0%, 100%": { 
+          "0%, 100%": {
             boxShadow: "0 0 20px hsl(var(--primary) / 0.4)",
           },
-          "50%": { 
+          "50%": {
             boxShadow: "0 0 40px hsl(var(--primary) / 0.7)",
           },
         },
         "border-flow": {
-          "0%, 100%": { 
+          "0%, 100%": {
             backgroundPosition: "0% 50%",
           },
-          "50%": { 
+          "50%": {
             backgroundPosition: "100% 50%",
           },
         },
@@ -95,7 +102,8 @@ export default {
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-primary": "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)))",
+        "gradient-primary":
+          "linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)))",
       },
     },
   },
