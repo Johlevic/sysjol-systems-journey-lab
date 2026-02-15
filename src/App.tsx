@@ -8,6 +8,10 @@ import NotFound from "./pages/NotFound";
 
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import PythonCourse from "./pages/PythonCourse";
+import Courses from "./pages/Courses";
+import Systems from "./pages/Systems";
+import Journey from "./pages/Journey";
+import Lab from "./pages/Lab";
 
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -26,6 +30,10 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/python-course" element={<PythonCourse />} />
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/systems" element={<Systems />} />
+          <Route path="/journey" element={<Journey />} />
+          <Route path="/lab" element={<Lab />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

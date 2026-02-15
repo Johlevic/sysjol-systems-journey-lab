@@ -48,6 +48,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { Home } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(2, "El nombre debe tener al menos 2 caracteres."),
@@ -234,114 +243,146 @@ const PythonCourse = () => {
       <Navbar />
 
       {/* Header */}
-      <section className="relative py-20 md:py-32 overflow-hidden geometric-bg">
-        <div className="container relative z-10 px-4 md:px-6 text-center">
-          <div className="absolute top-4 left-4 md:top-8 md:left-8">
-            <Link
-              to="/"
-              className="inline-flex items-center gap-2 text-muted-foreground hover:text-python-yellow transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Volver al Inicio
-            </Link>
+      <section className="relative pt-24 pb-12 md:py-24 overflow-hidden geometric-bg border-b border-white/5">
+        <div className="container relative z-10 px-4 md:px-6">
+          {/* Modern Breadcrumb */}
+          <div className="flex justify-center mb-8 md:mb-12">
+            <Breadcrumb className="bg-background/40 backdrop-blur-md border border-white/10 px-4 py-2 rounded-full shadow-lg">
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink asChild>
+                    <Link
+                      to="/"
+                      className="flex items-center gap-2 hover:text-python-blue transition-colors"
+                    >
+                      <Home slot="icon" className="w-3.5 h-3.5" />
+                      <span>Inicio</span>
+                    </Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink asChild>
+                    <Link
+                      to="/courses"
+                      className="hover:text-python-blue transition-colors"
+                    >
+                      Cursos
+                    </Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage className="text-python-yellow font-medium">
+                    Python
+                  </BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
           </div>
 
-          <div className="flex justify-center mb-8">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"
-              alt="Python Logo"
-              className="w-24 h-24 animate-float drop-shadow-[0_0_15px_rgba(48,105,152,0.5)]"
-            />
-          </div>
-
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-python-blue/10 border border-python-blue/20 backdrop-blur-sm mb-8">
-            <span className="text-sm font-medium text-python-blue md:text-python-yellow">
-              Curso Intensivo
-            </span>
-          </div>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold mb-6">
-            Curso Profesional de{" "}
-            <span className="text-python-blue">Python</span>
-          </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
-            Lleva tus habilidades de programación al siguiente nivel con nuestro
-            programa intensivo de 4 semanas.
-          </p>
-
-          {/* Pricing & Timer */}
-          <div className="mt-12 animate-fade-up-delay-2">
-            <div className="flex flex-col items-center gap-6">
-              {/* Price Tag */}
-              <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-python-blue to-python-yellow rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-                <div className="relative px-8 py-4 bg-card/80 backdrop-blur-xl ring-1 ring-white/10 rounded-lg flex flex-col items-center">
-                  <span className="text-muted-foreground line-through text-lg">
-                    Precio Regular: S/ 150.00
-                  </span>
-                  <div className="flex items-center gap-3">
-                    <span className="text-4xl md:text-5xl font-bold text-white">
-                      S/ 50.00
-                    </span>
-                    <span className="bg-python-yellow text-background text-xs font-bold px-2 py-1 rounded">
-                      -66% OFF
-                    </span>
-                  </div>
-                  <span className="text-sm text-python-yellow mt-1 font-medium">
-                    ¡Oferta por tiempo limitado!
-                  </span>
-                </div>
+          <div className="text-center">
+            <div className="flex flex-col items-center gap-6 mb-8 group">
+              <div className="relative">
+                <div className="absolute -inset-4 bg-python-blue/20 rounded-full blur-2xl group-hover:bg-python-blue/30 transition-all duration-500" />
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"
+                  alt="Python Logo"
+                  className="relative w-16 h-16 md:w-20 md:h-20 animate-float drop-shadow-[0_0_20px_rgba(48,105,152,0.6)] transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
 
-              {/* Timer */}
-              <div className="flex items-center gap-2 md:gap-4 text-white">
-                <div className="flex flex-col items-center">
-                  <div className="bg-white/5 border border-white/10 rounded-lg p-2 w-12 h-12 md:p-3 md:w-16 md:h-16 flex items-center justify-center backdrop-blur-sm">
-                    <span className="text-lg md:text-2xl font-bold font-mono">
-                      {timeReq.days}
-                    </span>
-                  </div>
-                  <span className="text-[10px] md:text-xs text-muted-foreground mt-1">
-                    Días
-                  </span>
-                </div>
-                <span className="text-lg md:text-2xl font-bold pb-4 md:pb-6">
-                  :
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-python-blue/10 border border-python-blue/20 backdrop-blur-sm">
+                <span className="text-xs md:text-sm font-semibold tracking-wider uppercase text-python-blue md:text-python-yellow">
+                  Certificación Profesional
                 </span>
-                <div className="flex flex-col items-center">
-                  <div className="bg-white/5 border border-white/10 rounded-lg p-2 w-12 h-12 md:p-3 md:w-16 md:h-16 flex items-center justify-center backdrop-blur-sm">
-                    <span className="text-lg md:text-2xl font-bold font-mono">
-                      {timeReq.hours}
+              </div>
+            </div>
+
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold mb-6">
+              Curso Profesional de{" "}
+              <span className="text-python-blue">Python</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
+              Lleva tus habilidades de programación al siguiente nivel con
+              nuestro programa intensivo de 4 semanas.
+            </p>
+
+            {/* Pricing & Timer */}
+            <div className="mt-12 animate-fade-up-delay-2">
+              <div className="flex flex-col items-center gap-6">
+                {/* Price Tag */}
+                <div className="relative group">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-python-blue to-python-yellow rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                  <div className="relative px-8 py-4 bg-card/80 backdrop-blur-xl ring-1 ring-white/10 rounded-lg flex flex-col items-center">
+                    <span className="text-muted-foreground line-through text-lg">
+                      Precio Regular: S/ 150.00
+                    </span>
+                    <div className="flex items-center gap-3">
+                      <span className="text-4xl md:text-5xl font-bold text-white">
+                        S/ 50.00
+                      </span>
+                      <span className="bg-python-yellow text-background text-xs font-bold px-2 py-1 rounded">
+                        -66% OFF
+                      </span>
+                    </div>
+                    <span className="text-sm text-python-yellow mt-1 font-medium">
+                      ¡Oferta por tiempo limitado!
                     </span>
                   </div>
-                  <span className="text-[10px] md:text-xs text-muted-foreground mt-1">
-                    Horas
-                  </span>
                 </div>
-                <span className="text-lg md:text-2xl font-bold pb-4 md:pb-6">
-                  :
-                </span>
-                <div className="flex flex-col items-center">
-                  <div className="bg-white/5 border border-white/10 rounded-lg p-2 w-12 h-12 md:p-3 md:w-16 md:h-16 flex items-center justify-center backdrop-blur-sm">
-                    <span className="text-lg md:text-2xl font-bold font-mono">
-                      {timeReq.minutes}
+
+                {/* Timer */}
+                <div className="flex items-center gap-2 md:gap-4 text-white">
+                  <div className="flex flex-col items-center">
+                    <div className="bg-white/5 border border-white/10 rounded-lg p-2 w-12 h-12 md:p-3 md:w-16 md:h-16 flex items-center justify-center backdrop-blur-sm">
+                      <span className="text-lg md:text-2xl font-bold font-mono">
+                        {timeReq.days}
+                      </span>
+                    </div>
+                    <span className="text-[10px] md:text-xs text-muted-foreground mt-1">
+                      Días
                     </span>
                   </div>
-                  <span className="text-[10px] md:text-xs text-muted-foreground mt-1">
-                    Min
+                  <span className="text-lg md:text-2xl font-bold pb-4 md:pb-6">
+                    :
                   </span>
-                </div>
-                <span className="text-lg md:text-2xl font-bold pb-4 md:pb-6">
-                  :
-                </span>
-                <div className="flex flex-col items-center">
-                  <div className="bg-white/5 border border-white/10 rounded-lg p-2 w-12 h-12 md:p-3 md:w-16 md:h-16 flex items-center justify-center backdrop-blur-sm">
-                    <span className="text-lg md:text-2xl font-bold font-mono">
-                      {timeReq.seconds}
+                  <div className="flex flex-col items-center">
+                    <div className="bg-white/5 border border-white/10 rounded-lg p-2 w-12 h-12 md:p-3 md:w-16 md:h-16 flex items-center justify-center backdrop-blur-sm">
+                      <span className="text-lg md:text-2xl font-bold font-mono">
+                        {timeReq.hours}
+                      </span>
+                    </div>
+                    <span className="text-[10px] md:text-xs text-muted-foreground mt-1">
+                      Horas
                     </span>
                   </div>
-                  <span className="text-[10px] md:text-xs text-muted-foreground mt-1">
-                    Seg
+                  <span className="text-lg md:text-2xl font-bold pb-4 md:pb-6">
+                    :
                   </span>
+                  <div className="flex flex-col items-center">
+                    <div className="bg-white/5 border border-white/10 rounded-lg p-2 w-12 h-12 md:p-3 md:w-16 md:h-16 flex items-center justify-center backdrop-blur-sm">
+                      <span className="text-lg md:text-2xl font-bold font-mono">
+                        {timeReq.minutes}
+                      </span>
+                    </div>
+                    <span className="text-[10px] md:text-xs text-muted-foreground mt-1">
+                      Min
+                    </span>
+                  </div>
+                  <span className="text-lg md:text-2xl font-bold pb-4 md:pb-6">
+                    :
+                  </span>
+                  <div className="flex flex-col items-center">
+                    <div className="bg-white/5 border border-white/10 rounded-lg p-2 w-12 h-12 md:p-3 md:w-16 md:h-16 flex items-center justify-center backdrop-blur-sm">
+                      <span className="text-lg md:text-2xl font-bold font-mono">
+                        {timeReq.seconds}
+                      </span>
+                    </div>
+                    <span className="text-[10px] md:text-xs text-muted-foreground mt-1">
+                      Seg
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
