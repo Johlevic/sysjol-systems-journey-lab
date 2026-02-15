@@ -293,47 +293,53 @@ const PythonCourse = () => {
               </div>
 
               {/* Timer */}
-              <div className="flex items-center gap-4 text-white">
+              <div className="flex items-center gap-2 md:gap-4 text-white">
                 <div className="flex flex-col items-center">
-                  <div className="bg-white/5 border border-white/10 rounded-lg p-3 w-16 h-16 flex items-center justify-center backdrop-blur-sm">
-                    <span className="text-2xl font-bold font-mono">
+                  <div className="bg-white/5 border border-white/10 rounded-lg p-2 w-12 h-12 md:p-3 md:w-16 md:h-16 flex items-center justify-center backdrop-blur-sm">
+                    <span className="text-lg md:text-2xl font-bold font-mono">
                       {timeReq.days}
                     </span>
                   </div>
-                  <span className="text-xs text-muted-foreground mt-1">
+                  <span className="text-[10px] md:text-xs text-muted-foreground mt-1">
                     Días
                   </span>
                 </div>
-                <span className="text-2xl font-bold pb-6">:</span>
+                <span className="text-lg md:text-2xl font-bold pb-4 md:pb-6">
+                  :
+                </span>
                 <div className="flex flex-col items-center">
-                  <div className="bg-white/5 border border-white/10 rounded-lg p-3 w-16 h-16 flex items-center justify-center backdrop-blur-sm">
-                    <span className="text-2xl font-bold font-mono">
+                  <div className="bg-white/5 border border-white/10 rounded-lg p-2 w-12 h-12 md:p-3 md:w-16 md:h-16 flex items-center justify-center backdrop-blur-sm">
+                    <span className="text-lg md:text-2xl font-bold font-mono">
                       {timeReq.hours}
                     </span>
                   </div>
-                  <span className="text-xs text-muted-foreground mt-1">
+                  <span className="text-[10px] md:text-xs text-muted-foreground mt-1">
                     Horas
                   </span>
                 </div>
-                <span className="text-2xl font-bold pb-6">:</span>
+                <span className="text-lg md:text-2xl font-bold pb-4 md:pb-6">
+                  :
+                </span>
                 <div className="flex flex-col items-center">
-                  <div className="bg-white/5 border border-white/10 rounded-lg p-3 w-16 h-16 flex items-center justify-center backdrop-blur-sm">
-                    <span className="text-2xl font-bold font-mono">
+                  <div className="bg-white/5 border border-white/10 rounded-lg p-2 w-12 h-12 md:p-3 md:w-16 md:h-16 flex items-center justify-center backdrop-blur-sm">
+                    <span className="text-lg md:text-2xl font-bold font-mono">
                       {timeReq.minutes}
                     </span>
                   </div>
-                  <span className="text-xs text-muted-foreground mt-1">
+                  <span className="text-[10px] md:text-xs text-muted-foreground mt-1">
                     Min
                   </span>
                 </div>
-                <span className="text-2xl font-bold pb-6">:</span>
+                <span className="text-lg md:text-2xl font-bold pb-4 md:pb-6">
+                  :
+                </span>
                 <div className="flex flex-col items-center">
-                  <div className="bg-white/5 border border-white/10 rounded-lg p-3 w-16 h-16 flex items-center justify-center backdrop-blur-sm">
-                    <span className="text-2xl font-bold font-mono">
+                  <div className="bg-white/5 border border-white/10 rounded-lg p-2 w-12 h-12 md:p-3 md:w-16 md:h-16 flex items-center justify-center backdrop-blur-sm">
+                    <span className="text-lg md:text-2xl font-bold font-mono">
                       {timeReq.seconds}
                     </span>
                   </div>
-                  <span className="text-xs text-muted-foreground mt-1">
+                  <span className="text-[10px] md:text-xs text-muted-foreground mt-1">
                     Seg
                   </span>
                 </div>
