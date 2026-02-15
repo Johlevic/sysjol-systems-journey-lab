@@ -479,12 +479,12 @@ const PythonCourse = () => {
             <Card className="bg-card/50 backdrop-blur border-python-yellow/30 hover:border-python-yellow/60 transition-all hover:shadow-[0_0_30px_-5px_rgba(255,212,59,0.2)] group">
               <CardHeader>
                 <Award className="w-10 h-10 text-python-yellow mb-4 group-hover:scale-110 transition-transform" />
-                <CardTitle>Certificación Oficial</CardTitle>
+                <CardTitle>Certificado de Finalización</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Diploma digital que valida tus habilidades y conocimientos
-                  ante empleadores y clientes.
+                  Diploma digital emitido por SysJoL al completar el curso y
+                  proyecto final. Impulsa tu CV.
                 </p>
               </CardContent>
             </Card>
