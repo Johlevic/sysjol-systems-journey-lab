@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -16,6 +16,7 @@ import {
   Infinity,
   Star,
   Briefcase,
+  Timer,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import emailjs from "@emailjs/browser";
@@ -90,6 +91,40 @@ const PythonCourse = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const [timeReq, setTimeReq] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  useEffect(() => {
+    // Set target date to February 18, 2026 (or current year) 4:00 PM
+    const targetDate = new Date("2026-02-18T16:00:00");
+
+    const interval = setInterval(() => {
+      const now = new Date();
+      const difference = targetDate.getTime() - now.getTime();
+
+      if (difference > 0) {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+        );
+        const minutes = Math.floor(
+          (difference % (1000 * 60 * 60)) / (1000 * 60),
+        );
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+        setTimeReq({ days, hours, minutes, seconds });
+      } else {
+        clearInterval(interval);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -232,6 +267,79 @@ const PythonCourse = () => {
             Lleva tus habilidades de programación al siguiente nivel con nuestro
             programa intensivo de 4 semanas.
           </p>
+
+          {/* Pricing & Timer */}
+          <div className="mt-12 animate-fade-up-delay-2">
+            <div className="flex flex-col items-center gap-6">
+              {/* Price Tag */}
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-python-blue to-python-yellow rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                <div className="relative px-8 py-4 bg-card/80 backdrop-blur-xl ring-1 ring-white/10 rounded-lg flex flex-col items-center">
+                  <span className="text-muted-foreground line-through text-lg">
+                    Precio Regular: S/ 150.00
+                  </span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-4xl md:text-5xl font-bold text-white">
+                      S/ 50.00
+                    </span>
+                    <span className="bg-python-yellow text-background text-xs font-bold px-2 py-1 rounded">
+                      -66% OFF
+                    </span>
+                  </div>
+                  <span className="text-sm text-python-yellow mt-1 font-medium">
+                    ¡Oferta por tiempo limitado!
+                  </span>
+                </div>
+              </div>
+
+              {/* Timer */}
+              <div className="flex items-center gap-4 text-white">
+                <div className="flex flex-col items-center">
+                  <div className="bg-white/5 border border-white/10 rounded-lg p-3 w-16 h-16 flex items-center justify-center backdrop-blur-sm">
+                    <span className="text-2xl font-bold font-mono">
+                      {timeReq.days}
+                    </span>
+                  </div>
+                  <span className="text-xs text-muted-foreground mt-1">
+                    Días
+                  </span>
+                </div>
+                <span className="text-2xl font-bold pb-6">:</span>
+                <div className="flex flex-col items-center">
+                  <div className="bg-white/5 border border-white/10 rounded-lg p-3 w-16 h-16 flex items-center justify-center backdrop-blur-sm">
+                    <span className="text-2xl font-bold font-mono">
+                      {timeReq.hours}
+                    </span>
+                  </div>
+                  <span className="text-xs text-muted-foreground mt-1">
+                    Horas
+                  </span>
+                </div>
+                <span className="text-2xl font-bold pb-6">:</span>
+                <div className="flex flex-col items-center">
+                  <div className="bg-white/5 border border-white/10 rounded-lg p-3 w-16 h-16 flex items-center justify-center backdrop-blur-sm">
+                    <span className="text-2xl font-bold font-mono">
+                      {timeReq.minutes}
+                    </span>
+                  </div>
+                  <span className="text-xs text-muted-foreground mt-1">
+                    Min
+                  </span>
+                </div>
+                <span className="text-2xl font-bold pb-6">:</span>
+                <div className="flex flex-col items-center">
+                  <div className="bg-white/5 border border-white/10 rounded-lg p-3 w-16 h-16 flex items-center justify-center backdrop-blur-sm">
+                    <span className="text-2xl font-bold font-mono">
+                      {timeReq.seconds}
+                    </span>
+                  </div>
+                  <span className="text-xs text-muted-foreground mt-1">
+                    Seg
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -419,16 +527,17 @@ const PythonCourse = () => {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Nombre Completo</FormLabel>
-                          <FormControl>
-                            <div className="relative">
-                              <User className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                          <div className="relative">
+                            <User className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                            <FormControl>
                               <Input
                                 placeholder="Juan Pérez"
                                 className="pl-10"
+                                autoComplete="name"
                                 {...field}
                               />
-                            </div>
-                          </FormControl>
+                            </FormControl>
+                          </div>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -440,16 +549,17 @@ const PythonCourse = () => {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Correo Electrónico</FormLabel>
-                          <FormControl>
-                            <div className="relative">
-                              <Mail className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                          <div className="relative">
+                            <Mail className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                            <FormControl>
                               <Input
                                 placeholder="juan@ejemplo.com"
                                 className="pl-10"
+                                autoComplete="email"
                                 {...field}
                               />
-                            </div>
-                          </FormControl>
+                            </FormControl>
+                          </div>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -461,16 +571,17 @@ const PythonCourse = () => {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Celular / WhatsApp</FormLabel>
-                          <FormControl>
-                            <div className="relative">
-                              <Phone className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                          <div className="relative">
+                            <Phone className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                            <FormControl>
                               <Input
                                 placeholder="987654321"
                                 className="pl-10"
+                                autoComplete="tel"
                                 {...field}
                               />
-                            </div>
-                          </FormControl>
+                            </FormControl>
+                          </div>
                           <FormMessage />
                         </FormItem>
                       )}

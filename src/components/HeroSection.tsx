@@ -3,7 +3,7 @@ import { ArrowRight, Zap } from "lucide-react";
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden geometric-bg">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden geometric-bg pt-24 md:pt-32">
       {/* Gradient orbs */}
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-float" />
       <div
@@ -46,11 +46,11 @@ const HeroSection = () => {
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 pt-4 animate-fade-up-delay-2 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 pt-8 animate-fade-up-delay-2 justify-center w-full max-w-sm sm:max-w-none mx-auto">
             <Button
               variant="hero"
               size="lg"
-              className="bg-[#25D366] hover:bg-[#128C7E] text-white border-none"
+              className="w-full sm:w-auto bg-[#25D366] hover:bg-[#128C7E] text-white border-none shadow-lg shadow-green-500/20 hover:shadow-green-500/40 transition-all font-semibold"
               onClick={() => window.open("https://wa.me/51980609176", "_blank")}
             >
               <svg viewBox="0 0 24 24" className="w-5 h-5 mr-2 fill-current">
@@ -61,7 +61,7 @@ const HeroSection = () => {
             <Button
               variant="outline"
               size="lg"
-              className="border-python-blue text-python-blue hover:bg-python-blue/10"
+              className="w-full sm:w-auto border-python-blue text-python-blue hover:bg-python-blue/10 shadow-lg shadow-python-blue/10 backdrop-blur-sm"
               onClick={() => (window.location.href = "/python-course")}
             >
               Ver Detalles del Curso
