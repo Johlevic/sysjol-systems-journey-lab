@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import ReCAPTCHA from "react-google-recaptcha";
 import {
   Calendar,
   Clock,
@@ -110,6 +111,7 @@ const PythonCourse = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isSuccess, setIsSuccess] = useState(false);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const [timeReq, setTimeReq] = useState({
     days: 0,
@@ -182,6 +184,14 @@ const PythonCourse = () => {
       });
     }, 100);
 
+    // Verify reCAPTCHA
+    const recaptchaValue = recaptchaRef.current?.getValue();
+    if (!recaptchaValue) {
+      toast.error("Por favor, completa el CAPTCHA.");
+      setIsSubmitting(false);
+      return;
+    }
+
     // Credentials from environment variables
     const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
     const templateNotificationId = import.meta.env
@@ -200,15 +210,12 @@ const PythonCourse = () => {
       toast.error(
         "Error de configuración: Faltan las credenciales de EmailJS.",
       );
-      console.error(
-        "Faltan variables de entorno para EmailJS. Asegúrate de reiniciar el servidor.",
-      );
       setIsSubmitting(false);
       return;
     }
 
     try {
-      // 1. Send Notification to Admin
+      // 1. Send Notification to Admin (Include CAPTCHA token)
       await emailjs.send(
         serviceId,
         templateNotificationId,
@@ -217,11 +224,12 @@ const PythonCourse = () => {
           from_email: values.email,
           phone: values.phone,
           message: `Nuevo registro para curso Python.\nNombre: ${values.name}\nEmail: ${values.email}\nTeléfono: ${values.phone}`,
+          "g-recaptcha-response": recaptchaValue,
         },
         publicKey,
       );
 
-      // 2. Send Confirmation to Student
+      // 2. Send Confirmation to Student (Include CAPTCHA token)
       await emailjs.send(
         serviceId,
         templateConfirmationId,
@@ -229,6 +237,7 @@ const PythonCourse = () => {
           to_name: values.name,
           to_email: values.email,
           reply_to: "sysjol@gmail.com",
+          "g-recaptcha-response": recaptchaValue,
         },
         publicKey,
       );
@@ -257,12 +266,14 @@ const PythonCourse = () => {
           setIsSubmitting(false);
           setIsSuccess(false);
           setProgress(0);
+          recaptchaRef.current?.reset();
         }, 3000);
       }, 500);
     } catch (error) {
       clearInterval(interval);
       console.error("EmailJS Error:", error);
       toast.error("Hubo un error al procesar el registro. Intentalo de nuevo.");
+      recaptchaRef.current?.reset();
       setIsSubmitting(false);
     }
   };
@@ -662,6 +673,25 @@ const PythonCourse = () => {
                         </FormItem>
                       )}
                     />
+
+                    {!isSuccess && !isSubmitting && (
+                      <div className="flex justify-center py-2">
+                        {import.meta.env.VITE_RECAPTCHA_SITE_KEY ? (
+                          <ReCAPTCHA
+                            ref={recaptchaRef}
+                            sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+                            theme="dark"
+                          />
+                        ) : (
+                          <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-500 text-xs text-center">
+                            Error: No se encontró la SITE KEY de reCAPTCHA.
+                            <br />
+                            Reinicia el servidor (npm run dev) para cargar el
+                            .env.
+                          </div>
+                        )}
+                      </div>
+                    )}
 
                     {isSuccess ? (
                       <div className="flex flex-col items-center justify-center p-6 bg-green-500/10 border border-green-500/20 rounded-lg animate-fade-up">
