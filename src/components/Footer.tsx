@@ -1,9 +1,85 @@
-import { Github, Mail, Phone, MapPin, ChevronRight, Send } from "lucide-react";
+import {
+  Github,
+  Mail,
+  Phone,
+  MapPin,
+  ChevronRight,
+  Send,
+  Loader2,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import emailjs from "@emailjs/browser";
+import { toast } from "sonner";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) {
+      toast.error("Por favor, ingresa tu correo electrónico.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    // Check localStorage for duplicate
+    const subscribedEmails = JSON.parse(
+      localStorage.getItem("sysjol_newsletter_emails") || "[]",
+    );
+    if (subscribedEmails.includes(email)) {
+      toast.error("Este correo ya está suscrito al newsletter.");
+      setIsSubmitting(false);
+      return;
+    }
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateNotificationId = import.meta.env
+      .VITE_EMAILJS_TEMPLATE_NOTIFICATION_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateNotificationId || !publicKey) {
+      toast.error(
+        "Error de configuración: Faltan las credenciales de EmailJS.",
+      );
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      await emailjs.send(
+        serviceId,
+        templateNotificationId,
+        {
+          from_name: "Usuario Newsletter",
+          from_email: email,
+          message: `Nuevo suscriptor para el newsletter: ${email}\nUbicación reportada: Trujillo, La Libertad, Perú.`,
+        },
+        publicKey,
+      );
+
+      // Save to localStorage
+      subscribedEmails.push(email);
+      localStorage.setItem(
+        "sysjol_newsletter_emails",
+        JSON.stringify(subscribedEmails),
+      );
+
+      toast.success("¡Gracias por suscribirte!");
+      setEmail("");
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+      toast.error(
+        "Hubo un error al procesar tu suscripción. Intentalo de nuevo.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <footer className="relative bg-card/30 border-t border-white/5 pt-20 pb-10 overflow-hidden">
@@ -95,7 +171,7 @@ const Footer = () => {
               <li className="flex gap-4">
                 <MapPin className="w-6 h-6 text-primary flex-shrink-0" />
                 <span className="text-muted-foreground text-sm italic">
-                  Sede Principal: Lima, Perú - Conexión Global
+                  Sede Principal: Trujillo, La Libertad - Perú
                 </span>
               </li>
               <li className="flex gap-4">
@@ -113,7 +189,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Newsletter / Call to Action Mini */}
           <div className="space-y-6">
             <h4 className="text-lg font-bold mb-6 italic text-gradient">
               Únete a la Vanguardia
@@ -122,16 +197,27 @@ const Footer = () => {
               Suscríbete para recibir noticias sobre nuevas tecnologías y
               automatizaciones.
             </p>
-            <div className="relative group">
+            <form onSubmit={handleSubscribe} className="relative group">
               <input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Tu email..."
-                className="w-full bg-background/50 border border-white/10 rounded-2xl py-3 px-4 outline-none focus:border-primary/50 transition-all italic text-sm"
+                disabled={isSubmitting}
+                className="w-full bg-background/50 border border-white/10 rounded-2xl py-3 px-4 outline-none focus:border-primary/50 transition-all italic text-sm disabled:opacity-50"
               />
-              <button className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center text-primary hover:bg-primary transition-all hover:text-white">
-                <Send className="w-4 h-4" />
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center text-primary hover:bg-primary transition-all hover:text-white disabled:opacity-50"
+              >
+                {isSubmitting ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Send className="w-4 h-4" />
+                )}
               </button>
-            </div>
+            </form>
           </div>
         </div>
 

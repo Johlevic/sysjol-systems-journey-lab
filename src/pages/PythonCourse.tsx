@@ -149,6 +149,18 @@ const PythonCourse = () => {
     setIsSuccess(false);
     setProgress(0);
 
+    // Check localStorage for duplicate
+    const registeredEmails = JSON.parse(
+      localStorage.getItem("sysjol_python_course_emails") || "[]",
+    );
+    if (registeredEmails.includes(values.email)) {
+      toast.error(
+        "Ya te has registrado en este curso con este correo electrónico.",
+      );
+      setIsSubmitting(false);
+      return;
+    }
+
     // Simulate progress
     const interval = setInterval(() => {
       setProgress((prev) => {
@@ -218,6 +230,13 @@ const PythonCourse = () => {
       // Short delay to show 100% before showing checkmark
       setTimeout(() => {
         setIsSuccess(true);
+        // Save to localStorage
+        registeredEmails.push(values.email);
+        localStorage.setItem(
+          "sysjol_python_course_emails",
+          JSON.stringify(registeredEmails),
+        );
+
         toast.success(
           "¡Registro exitoso! Revisa tu correo para la confirmación.",
         );
@@ -255,7 +274,7 @@ const PythonCourse = () => {
                       to="/"
                       className="flex items-center gap-2 hover:text-python-blue transition-colors"
                     >
-                      <Home slot="icon" className="w-3.5 h-3.5" />
+                      <Home className="w-3.5 h-3.5" />
                       <span>Inicio</span>
                     </Link>
                   </BreadcrumbLink>
