@@ -54,14 +54,23 @@ const SearchContent = ({
   };
 
   return (
-    <Command shouldFilter={false} className="border-none bg-transparent">
-      <CommandInput
-        placeholder="Busca servicios, cursos o proyectos..."
-        value={query}
-        onValueChange={onQueryChange}
-        className="text-lg md:text-base h-14 md:h-12"
-      />
-      <CommandList className="max-h-[60dvh] md:max-h-[350px] overflow-y-auto pb-4">
+    <Command
+      shouldFilter={false}
+      className="flex flex-col border-none bg-transparent overflow-hidden h-full justify-end"
+    >
+      {/* Mobile Top Header - Fixed while scrolling results */}
+      <div className="md:hidden px-6 py-3 border-b border-white/5 bg-background/20 backdrop-blur-3xl sticky top-0 z-30 flex items-center justify-between shrink-0">
+        <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-primary/60">
+          {query ? "Sistema de Búsqueda" : "Centro de Navegación"}
+        </span>
+        <div className="flex gap-1">
+          <div className="w-1 h-1 rounded-full bg-primary/40 animate-pulse" />
+          <div className="w-1 h-1 rounded-full bg-primary/40 animate-pulse delay-75" />
+          <div className="w-1 h-1 rounded-full bg-primary/40 animate-pulse delay-150" />
+        </div>
+      </div>
+
+      <CommandList className="w-full h-auto max-h-[calc(100%-140px)] overflow-y-auto pt-2 pb-2 scrollbar-hide">
         {isSearching ? (
           <div className="flex flex-col items-center justify-center py-12 animate-in fade-in duration-300">
             <Loader2 className="h-8 w-8 animate-spin text-primary opacity-50 mb-4" />
@@ -142,6 +151,14 @@ const SearchContent = ({
           </div>
         )}
       </CommandList>
+      <div className="border-t border-white/10 bg-background/50 backdrop-blur-md z-20 shrink-0">
+        <CommandInput
+          placeholder="Busca servicios, cursos o proyectos..."
+          value={query}
+          onValueChange={onQueryChange}
+          className="text-lg md:text-base h-16 md:h-12 border-none outline-none focus:ring-0"
+        />
+      </div>
       {isDesktop && (
         <div className="border-t border-border/10 p-3 flex justify-between items-center bg-muted/20">
           <div className="flex gap-4">
@@ -260,17 +277,20 @@ export const SearchGlobal = ({
   }
 
   return (
-    <Drawer open={open} onOpenChange={handleOpenChange}>
-      <DrawerContent className="bg-background/95 backdrop-blur-2xl border-white/10 h-[80dvh] rounded-t-[32px]">
-        <div className="px-1 pt-4 h-full flex flex-col">
-          <SearchContent
-            query={query}
-            onQueryChange={setQuery}
-            isSearching={isSearching}
-            results={results}
-            onSelect={handleSelect}
-            isDesktop={isDesktop}
-          />
+    <Drawer open={open} onOpenChange={handleOpenChange} shouldScaleBackground>
+      <DrawerContent className="bg-background/95 backdrop-blur-3xl border-white/10 h-[96dvh] rounded-t-[32px] overflow-hidden">
+        <div className="px-1 pt-2 h-full flex flex-col overflow-hidden">
+          <div className="mx-auto my-2 h-1.5 w-12 rounded-full bg-white/10 shrink-0" />
+          <div className="flex-1 overflow-hidden flex flex-col">
+            <SearchContent
+              query={query}
+              onQueryChange={setQuery}
+              isSearching={isSearching}
+              results={results}
+              onSelect={handleSelect}
+              isDesktop={isDesktop}
+            />
+          </div>
         </div>
       </DrawerContent>
     </Drawer>
