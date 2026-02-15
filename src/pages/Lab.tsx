@@ -37,8 +37,64 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
+import { FaWhatsapp } from "react-icons/fa";
+import { ImageWithSkeleton } from "@/components/ImageWithSkeleton";
+import { useState, useEffect } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const LabSkeleton = () => (
+  <div className="min-h-screen bg-background">
+    {/* Hero Skeleton */}
+    <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden border-b border-white/5">
+      <div className="container relative z-10 px-4 md:px-6">
+        <div className="flex justify-center mb-8">
+          <Skeleton className="w-40 h-10 rounded-full" />
+        </div>
+        <div className="max-w-4xl mx-auto text-center space-y-8">
+          <Skeleton className="w-1/2 h-16 md:h-24 mx-auto" />
+          <Skeleton className="w-full h-20 mx-auto" />
+        </div>
+      </div>
+    </section>
+
+    {/* Tabs & Grid Skeleton */}
+    <section className="py-24 bg-card/10">
+      <div className="container px-4 md:px-6">
+        <div className="flex justify-center mb-16">
+          <Skeleton className="w-full max-w-2xl h-14 rounded-2xl" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="rounded-2xl border border-white/5 bg-card/30 p-6 space-y-6"
+            >
+              <Skeleton className="w-full aspect-video rounded-xl" />
+              <div className="space-y-4">
+                <Skeleton className="w-3/4 h-8" />
+                <Skeleton className="w-full h-16" />
+                <div className="flex gap-2">
+                  <Skeleton className="w-16 h-6 rounded-full" />
+                  <Skeleton className="w-16 h-6 rounded-full" />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
+);
 
 const Lab = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
   const projects = {
     automation: [
       {
@@ -138,6 +194,15 @@ const Lab = () => {
     );
     window.open(`https://wa.me/51980609176?text=${message}`, "_blank");
   };
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <LabSkeleton />
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background selection:bg-primary/30">
@@ -247,7 +312,7 @@ const Lab = () => {
                             allowFullScreen
                           ></iframe>
                         ) : (
-                          <img
+                          <ImageWithSkeleton
                             src={project.image}
                             alt={project.title}
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
@@ -392,7 +457,7 @@ const Lab = () => {
             onClick={handleContact}
           >
             Hablemos hoy mismo
-            <ChevronRight className="ml-3 w-6 h-6 border-l pl-3 border-white/20" />
+            <FaWhatsapp className="w-5 h-5 mr-2 group-hover/btn:scale-110 transition-transform" />
           </Button>
         </div>
       </section>

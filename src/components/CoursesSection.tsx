@@ -1,5 +1,7 @@
-import { MessageSquare, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 import { Button } from "./ui/button";
+import { ImageWithSkeleton } from "./ImageWithSkeleton";
 import {
   Card,
   CardContent,
@@ -94,10 +96,11 @@ const CoursesSection = () => {
             >
               <CardHeader className="space-y-4">
                 <div className="w-16 h-16 rounded-2xl bg-background/50 border border-white/10 p-3 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                  <img
+                  <ImageWithSkeleton
                     src={course.logo}
                     alt={course.title}
-                    className="w-full h-full object-contain filter drop-shadow-sm"
+                    className="w-full h-full object-contain filter drop-shadow-sm transition-transform duration-500 group-hover:scale-110"
+                    containerClassName="bg-transparent"
                   />
                 </div>
                 <CardTitle className="text-2xl font-display group-hover:text-primary transition-colors duration-300">
@@ -112,9 +115,9 @@ const CoursesSection = () => {
               <CardFooter>
                 <Button
                   onClick={() => handleContact(course.title)}
-                  className="w-full bg-secondary hover:bg-primary text-foreground hover:text-primary-foreground border border-white/10 transition-all duration-300 group/btn"
+                  className="w-full bg-[#25D366]/10 hover:bg-[#25D366] text-[#25D366] hover:text-white border-[#25D366]/20 transition-all duration-300 group/btn"
                 >
-                  <MessageSquare className="w-4 h-4 mr-2 group-hover/btn:scale-110 transition-transform" />
+                  <FaWhatsapp className="w-5 h-5 mr-2 group-hover/btn:scale-110 transition-transform" />
                   Consultar Curso
                   <ExternalLink className="w-3.5 h-3.5 ml-2 opacity-50" />
                 </Button>

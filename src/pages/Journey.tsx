@@ -9,12 +9,13 @@ import {
   Lightbulb,
   ArrowRight,
   Home,
-  MessageSquare,
   ChevronRight,
 } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { ImageWithSkeleton } from "@/components/ImageWithSkeleton";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Breadcrumb,
@@ -25,8 +26,57 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const JourneySkeleton = () => (
+  <div className="min-h-screen bg-background">
+    {/* Hero Skeleton */}
+    <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+      <div className="container relative z-10 px-4 md:px-6">
+        <div className="flex justify-center mb-8">
+          <Skeleton className="w-40 h-10 rounded-full" />
+        </div>
+        <div className="max-w-4xl mx-auto text-center space-y-8">
+          <Skeleton className="w-full h-16 md:h-24 mx-auto" />
+          <Skeleton className="w-2/3 h-10 mx-auto" />
+          <div className="flex justify-center pt-4">
+            <Skeleton className="w-56 h-14 rounded-full" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Roadmap Skeleton */}
+    <section className="py-24">
+      <div className="container px-4 md:px-6">
+        <div className="text-center mb-16 space-y-4">
+          <Skeleton className="w-64 h-12 mx-auto" />
+          <Skeleton className="w-full max-w-lg h-6 mx-auto" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="flex flex-col items-center space-y-4">
+              <Skeleton className="w-20 h-20 rounded-2xl" />
+              <Skeleton className="w-32 h-6" />
+              <Skeleton className="w-full h-12" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
+);
 
 const Journey = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
   const steps = [
     {
       title: "Descubrimiento",
@@ -68,6 +118,15 @@ const Journey = () => {
     );
     window.open(`https://wa.me/51980609176?text=${message}`, "_blank");
   };
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <JourneySkeleton />
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background selection:bg-accent/30">
@@ -76,9 +135,14 @@ const Journey = () => {
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-accent/10 via-background to-background" />
-          <div className="absolute top-0 left-0 w-full h-full opacity-40 bg-[url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center brightness-[0.3]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.1),transparent_70%)]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-accent/10 via-background to-background z-10" />
+          <ImageWithSkeleton
+            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2000&auto=format&fit=crop"
+            alt="Journey Hero"
+            className="w-full h-full object-cover brightness-[0.3]"
+            containerClassName="absolute inset-0 w-full h-full"
+          />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.1),transparent_70%)] z-10" />
         </div>
 
         <div className="container relative z-10 px-4 md:px-6">
@@ -202,7 +266,7 @@ const Journey = () => {
             </div>
             <div className="flex-1 relative order-1 lg:order-2">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 group">
-                <img
+                <ImageWithSkeleton
                   src="https://www.campustraining.es/wp-content/uploads/2024/08/puestos-trabajo-programacion.jpg.webp"
                   alt="Programadores trabajando"
                   className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-700"
@@ -213,7 +277,7 @@ const Journey = () => {
               <div className="absolute -bottom-6 -left-6 bg-card border border-white/10 p-6 rounded-2xl shadow-2xl hidden md:block animate-float">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-accent">
-                    <img
+                    <ImageWithSkeleton
                       src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop"
                       alt="Dev Lead"
                       className="w-full h-full object-cover"
@@ -235,7 +299,7 @@ const Journey = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-4">
                   <div className="rounded-2xl overflow-hidden border border-white/5 shadow-xl">
-                    <img
+                    <ImageWithSkeleton
                       src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=600&auto=format&fit=crop"
                       alt="Team Collaboration"
                       className="w-full object-cover aspect-square hover:scale-110 transition-transform duration-500"
@@ -256,7 +320,7 @@ const Journey = () => {
                     </p>
                   </div>
                   <div className="rounded-2xl overflow-hidden border border-white/5 shadow-xl">
-                    <img
+                    <ImageWithSkeleton
                       src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=600&auto=format&fit=crop"
                       alt="Productive Coding"
                       className="w-full object-cover aspect-square hover:scale-110 transition-transform duration-500"
@@ -296,18 +360,18 @@ const Journey = () => {
 
       {/* Final CTA */}
       <section className="py-24 relative overflow-hidden bg-accent/5">
-        <div className="container px-4 md:px-6 relative z-10 text-center">
+        <div className="container px-4 md:px-6 relative z-10 text-center flex flex-col items-center justify-center">
           <Compass className="w-16 h-16 text-accent mx-auto mb-8 animate-pulse" />
           <h2 className="text-3xl md:text-5xl font-display font-bold mb-8 italic">
             ¿Iniciamos el viaje juntos?
           </h2>
           <Button
             size="lg"
-            className="rounded-full px-12 h-16 text-xl font-bold bg-accent hover:bg-accent/90 transition-all hover:shadow-[0_0_30px_rgba(139,92,246,0.4)]"
+            className="rounded-full px-12 h-16 text-xl font-bold bg-[#25D366] hover:bg-[#128C7E] text-white border-none shadow-lg shadow-green-500/20 hover:shadow-green-500/40 transition-all"
             onClick={handleContact}
           >
             Hablemos por WhatsApp
-            <MessageSquare className="ml-3 w-6 h-6 border-l pl-3 border-white/20" />
+            <FaWhatsapp className="w-10 h-10     text-white" />
           </Button>
         </div>
       </section>

@@ -28,6 +28,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
+import { ImageWithSkeleton } from "@/components/ImageWithSkeleton";
 import {
   Form,
   FormControl,
@@ -58,6 +59,50 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Home } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const PythonCourseSkeleton = () => (
+  <div className="min-h-screen bg-background">
+    {/* Header Skeleton */}
+    <section className="relative pt-24 pb-12 md:py-24 overflow-hidden border-b border-white/5">
+      <div className="container relative z-10 px-4 md:px-6">
+        <div className="flex justify-center mb-8 md:mb-12">
+          <Skeleton className="w-56 h-10 rounded-full" />
+        </div>
+        <div className="text-center space-y-8 flex flex-col items-center">
+          <Skeleton className="w-20 h-20 rounded-full mb-4" />
+          <Skeleton className="w-3/4 h-16 md:h-20 mx-auto" />
+          <Skeleton className="w-2/3 h-10 mx-auto" />
+
+          {/* Pricing/Timer Skeleton */}
+          <div className="mt-12 space-y-6 w-full max-w-lg">
+            <Skeleton className="w-full h-24 rounded-lg" />
+            <div className="flex justify-center gap-4">
+              {[1, 2, 3, 4].map((i) => (
+                <Skeleton key={i} className="w-16 h-20 rounded-lg" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Schedule Skeleton */}
+    <section className="py-24 bg-secondary/5">
+      <div className="container px-4 md:px-6">
+        <div className="grid md:grid-cols-2 gap-12">
+          <Skeleton className="w-full h-[400px] rounded-xl" />
+          <div className="space-y-6">
+            <Skeleton className="w-48 h-10" />
+            {[1, 2, 3, 4].map((i) => (
+              <Skeleton key={i} className="w-full h-16" />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+);
 
 const formSchema = z.object({
   name: z.string().min(2, "El nombre debe tener al menos 2 caracteres."),
@@ -108,7 +153,15 @@ const modules = [
 ];
 
 const PythonCourse = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
   const [progress, setProgress] = useState(0);
   const [isSuccess, setIsSuccess] = useState(false);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
@@ -278,6 +331,16 @@ const PythonCourse = () => {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <PythonCourseSkeleton />
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground font-body">
       <Navbar />
@@ -325,11 +388,14 @@ const PythonCourse = () => {
             <div className="flex flex-col items-center gap-6 mb-8 group">
               <div className="relative">
                 <div className="absolute -inset-4 bg-python-blue/20 rounded-full blur-2xl group-hover:bg-python-blue/30 transition-all duration-500" />
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"
-                  alt="Python Logo"
-                  className="relative w-16 h-16 md:w-20 md:h-20 animate-float drop-shadow-[0_0_20px_rgba(48,105,152,0.6)] transition-transform duration-500 group-hover:scale-105"
-                />
+                <div className="relative py-8 px-4 flex items-center justify-center">
+                  <ImageWithSkeleton
+                    src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg"
+                    alt="Python Logo"
+                    className="relative w-16 h-16 md:w-24 md:h-24 animate-float drop-shadow-[0_0_25px_rgba(48,105,152,0.7)] transition-transform duration-500 group-hover:scale-110"
+                    containerClassName="overflow-visible w-16 h-16 md:w-24 md:h-24 flex items-center justify-center"
+                  />
+                </div>
               </div>
 
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-python-blue/10 border border-python-blue/20 backdrop-blur-sm">

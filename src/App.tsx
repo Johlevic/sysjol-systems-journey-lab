@@ -13,6 +13,7 @@ import Systems from "./pages/Systems";
 import Journey from "./pages/Journey";
 import Lab from "./pages/Lab";
 
+import TermsOfService from "./pages/TermsOfService";
 import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/python-course" element={<PythonCourse />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/systems" element={<Systems />} />

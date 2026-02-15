@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { FaWhatsapp, FaGithub } from "react-icons/fa";
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
 import { toast } from "sonner";
@@ -114,19 +115,22 @@ const Footer = () => {
             <div className="flex items-center gap-4">
               {[
                 {
-                  icon: Phone,
+                  icon: FaWhatsapp,
                   href: "https://wa.me/51980609176",
                   label: "WhatsApp",
+                  color: "hover:text-[#25D366] hover:border-[#25D366]/30",
                 },
                 {
                   icon: Mail,
                   href: "mailto:sysjol@outlook.es",
                   label: "Email",
+                  color: "hover:text-[#0078D4] hover:border-[#0078D4]/30",
                 },
                 {
-                  icon: Github,
+                  icon: FaGithub,
                   href: "https://github.com/Johlevic?tab=repositories",
                   label: "GitHub",
+                  color: "hover:text-white hover:border-white/30",
                 },
               ].map((social, index) => (
                 <a
@@ -134,7 +138,7 @@ const Footer = () => {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-xl bg-background/50 border border-white/5 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 hover:scale-110 transition-all duration-300"
+                  className={`w-10 h-10 rounded-xl bg-background/50 border border-white/5 flex items-center justify-center text-muted-foreground ${social.color} hover:scale-110 transition-all duration-300`}
                 >
                   <social.icon className="w-5 h-5" />
                 </a>
@@ -309,7 +313,10 @@ const Footer = () => {
             >
               Política de Privacidad
             </Link>
-            <Link to="/" className="hover:text-primary transition-colors">
+            <Link
+              to="/terms-of-service"
+              className="hover:text-primary transition-colors"
+            >
               Términos de Servicio
             </Link>
           </div>

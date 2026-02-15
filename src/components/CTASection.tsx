@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Mail } from "lucide-react";
+import { ArrowRight, ExternalLink, Mail } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const CTASection = () => {
@@ -40,8 +41,9 @@ const CTASection = () => {
                   className="rounded-full px-8"
                   onClick={handleContact}
                 >
-                  <Mail className="w-5 h-5 mr-2" />
+                 <FaWhatsapp className="w-5 h-5 mr-2 group-hover/btn:scale-110 transition-transform" />
                   Contactar
+                  
                 </Button>
                 <Button
                   variant="glow"

@@ -1,99 +1,208 @@
-import { ArrowLeft } from "lucide-react";
+import {
+  ArrowLeft,
+  ShieldCheck,
+  Eye,
+  Database,
+  Share2,
+  Lock,
+  MessageSquare,
+  Home,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const PrivacyPolicy = () => {
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="mx-auto max-w-4xl space-y-6">
-        <Link to="/" className="inline-block">
-          <Button variant="ghost" className="gap-2 pl-0 hover:pl-2 transition-all">
-            <ArrowLeft className="h-4 w-4" />
-            Back to Home
-          </Button>
-        </Link>
-        
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-            Privacy Policy
+    <div className="min-h-screen bg-background">
+      <Navbar />
+
+      <main className="container mx-auto px-4 pt-32 pb-16 max-w-4xl space-y-8">
+        {/* Modern Breadcrumb */}
+        <div className="flex justify-start mb-4">
+          <Breadcrumb className="bg-background/40 backdrop-blur-md border border-white/10 px-4 py-2 rounded-full shadow-lg">
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link
+                    to="/"
+                    className="flex items-center gap-2 hover:text-primary transition-colors"
+                  >
+                    <Home className="w-3.5 h-3.5" />
+                    <span>Inicio</span>
+                  </Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage className="text-primary font-medium">
+                  Políticas de Privacidad
+                </BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
+
+        <div className="space-y-4">
+          <h1 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-foreground">
+            Políticas de <span className="text-primary">Privacidad</span>
           </h1>
-          <p className="text-muted-foreground">
-            Last updated: {new Date().toLocaleDateString()}
+          <p className="text-muted-foreground italic">
+            Última actualización:{" "}
+            {new Date().toLocaleDateString("es-PE", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
           </p>
         </div>
 
-        <Card className="border-muted bg-card/50 backdrop-blur-sm">
-          <CardHeader>
-            <CardTitle className="text-xl">Terms and Conditions</CardTitle>
+        <Card className="border-white/5 bg-card/30 backdrop-blur-xl shadow-2xl">
+          <CardHeader className="border-b border-white/5 pb-6">
+            <CardTitle className="text-2xl font-display flex items-center gap-3">
+              <ShieldCheck className="text-primary w-6 h-6" />
+              Protección de Datos
+            </CardTitle>
           </CardHeader>
-          <CardContent className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground">
-            <ScrollArea className="h-[60vh] pr-4">
-              <div className="space-y-6">
-                <section>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">1. Introduction</h3>
+          <CardContent className="pt-8">
+            <ScrollArea className="h-[65vh] pr-6">
+              <div className="space-y-8 text-muted-foreground leading-relaxed">
+                <section className="space-y-3">
+                  <div className="flex items-center gap-3 text-foreground font-display font-bold text-lg">
+                    <Eye className="w-5 h-5 text-primary" />
+                    <h3>1. Introducción</h3>
+                  </div>
                   <p>
-                    Welcome to SysJol Systems Journey Lab ("we," "our," or "us"). We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about this privacy notice or our practices with regard to your personal information, please contact us.
+                    En SysJoL Systems Journey Lab, valoramos su confianza y
+                    estamos comprometidos con la protección de sus datos
+                    personales. Esta política detalla cómo recopilamos, usamos y
+                    protegemos su información de acuerdo con la{" "}
+                    <strong>
+                      Ley de Protección de Datos Personales de Perú (Ley N°
+                      29733)
+                    </strong>{" "}
+                    y su reglamento.
                   </p>
                 </section>
 
-                <section>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">2. Information We Collect</h3>
+                <section className="space-y-3">
+                  <div className="flex items-center gap-3 text-foreground font-display font-bold text-lg">
+                    <Database className="w-5 h-5 text-primary" />
+                    <h3>2. Información que Recopilamos</h3>
+                  </div>
                   <p>
-                    We collect personal information that you voluntarily provide to us when you express an interest in obtaining information about us or our products and Services, when you participate in activities on the Website, or otherwise when you contact us.
+                    Recopilamos información que usted nos proporciona
+                    voluntariamente al registrarse en nuestros cursos,
+                    suscribirse al newsletter o contactarnos. Esto incluye:
+                  </p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>Nombre completo y apellidos.</li>
+                    <li>Dirección de correo electrónico.</li>
+                    <li>
+                      Número de teléfono/WhatsApp (especialmente para
+                      coordinación de cursos).
+                    </li>
+                    <li>
+                      Datos técnicos de navegación de forma anónima para mejorar
+                      nuestra web.
+                    </li>
+                  </ul>
+                </section>
+
+                <section className="space-y-3">
+                  <div className="flex items-center gap-3 text-foreground font-display font-bold text-lg">
+                    <Lock className="w-5 h-5 text-primary" />
+                    <h3>3. Uso de la Información</h3>
+                  </div>
+                  <p>
+                    Utilizamos sus datos personales única y exclusivamente para
+                    los siguientes fines:
+                  </p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>Proveer los servicios de formación solicitados.</li>
+                    <li>
+                      Enviar confirmaciones de inscripción y materiales de
+                      estudio.
+                    </li>
+                    <li>
+                      Gestionar comunicaciones sobre actualizaciones de cursos o
+                      nuevos lanzamientos (previa autorización).
+                    </li>
+                    <li>Atender consultas o solicitudes de soporte técnico.</li>
+                  </ul>
+                </section>
+
+                <section className="space-y-3">
+                  <div className="flex items-center gap-3 text-foreground font-display font-bold text-lg">
+                    <Share2 className="w-5 h-5 text-primary" />
+                    <h3>4. Compartición de Información</h3>
+                  </div>
+                  <p>
+                    SysJoL{" "}
+                    <strong>
+                      no vende ni alquila sus datos personales a terceros
+                    </strong>
+                    . Solo compartiremos información cuando sea estrictamente
+                    necesario para cumplir con leyes vigentes, requerimientos
+                    judiciales o para proteger nuestros derechos legales.
                   </p>
                 </section>
 
-                <section>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">3. How We Use Your Information</h3>
+                <section className="space-y-3">
+                  <div className="flex items-center gap-3 text-foreground font-display font-bold text-lg">
+                    <h3>5. Derechos ARCO</h3>
+                  </div>
                   <p>
-                    We use personal information collected via our Website for a variety of business purposes described below. We process your personal information for these purposes in reliance on our legitimate business interests, in order to enter into or perform a contract with you, with your consent, and/or for compliance with our legal obligations.
+                    De acuerdo con la legislación peruana, usted tiene derecho a
+                    ejercer sus derechos de{" "}
+                    <strong>
+                      Acceso, Rectificación, Cancelación y Oposición (ARCO)
+                    </strong>{" "}
+                    respecto a su información personal almacenada en nuestras
+                    bases de datos. Para ejercer estos derechos, puede enviarnos
+                    una solicitud detallada a nuestro correo electrónico
+                    oficial.
                   </p>
                 </section>
 
-                <section>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">4. Logins from Social Media Services</h3>
+                <section className="space-y-3">
+                  <div className="flex items-center gap-3 text-foreground font-display font-bold text-lg">
+                    <MessageSquare className="w-5 h-5 text-primary" />
+                    <h3>6. Contacto y Seguridad</h3>
+                  </div>
                   <p>
-                    Our services may allow you to register and log in using your third-party social media account details (like your Facebook or Meta credentials). Where you choose to do this, we will receive certain profile information about you from your social media provider. The profile information we receive may vary depending on the social media provider concerned, but will often include your name, email address, friends list, and profile picture, as well as other information you choose to make public on such a social media platform.
-                  </p>
-                  <p className="mt-2">
-                    We will use the information we receive only for the purposes that are described in this privacy notice or that are otherwise made clear to you on the relevant Website. Please note that we do not control, and are not responsible for, other uses of your personal information by your third-party social media provider. We recommend that you review their privacy notice to understand how they collect, use, and share your personal information.
-                  </p>
-                </section>
-
-                <section>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">5. Sharing Your Information</h3>
-                  <p>
-                    We only share information with your consent, to comply with laws, to provide you with services, to protect your rights, or to fulfill business obligations.
+                    Implementamos medidas de seguridad técnicas y organizativas
+                    para proteger sus datos contra el acceso no autorizado. Si
+                    tiene dudas sobre estas políticas, puede escribirnos a{" "}
+                    <strong>sysjol@outlook.es</strong>.
                   </p>
                 </section>
 
-                <section>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">6. Data Deletion</h3>
-                  <p>
-                     You have the right to request the deletion of your personal data. If you have logged in via a social media provider, you can also request deletion of your data through the settings of that social media platform or by contacting us directly. We will take reasonable steps to delete your personal information, subject to our legal obligations.
-                  </p>
-                </section>
-
-                <section>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">7. Security of Your Information</h3>
-                  <p>
-                    We use administrative, technical, and physical security measures to help protect your personal information. While we have taken reasonable steps to secure the personal information you provide to us, please be aware that despite our efforts, no security measures are perfect or impenetrable, and no method of data transmission can be guaranteed against any interception or other type of misuse.
-                  </p>
-                </section>
-
-                 <section>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">8. Contact Us</h3>
-                  <p>
-                    If you have questions or comments about this policy, you may email us or contact us by post.
+                <section className="pt-8 border-t border-white/5">
+                  <p className="text-sm italic">
+                    Al navegar por nuestro sitio y utilizar nuestros servicios,
+                    usted declara haber leído y aceptado nuestra Política de
+                    Privacidad.
                   </p>
                 </section>
               </div>
             </ScrollArea>
           </CardContent>
         </Card>
-      </div>
+      </main>
+
+      <Footer />
     </div>
   );
 };
