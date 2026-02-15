@@ -61,7 +61,17 @@ import { Home } from "lucide-react";
 const formSchema = z.object({
   name: z.string().min(2, "El nombre debe tener al menos 2 caracteres."),
   email: z.string().email("Correo electrónico inválido."),
-  phone: z.string().min(9, "El número debe tener al menos 9 dígitos."),
+  phone: z
+    .string()
+    .regex(
+      /^9[0-9]{8}$/,
+      "El número debe iniciar con 9 y tener exactamente 9 dígitos.",
+    )
+    .refine((val) => {
+      const allSame = /^(.)\1+$/.test(val);
+      const suffixSame = /^9(.)\1+$/.test(val);
+      return !allSame && !suffixSame;
+    }, "Por favor, ingresa un número de teléfono real."),
 });
 
 const modules = [

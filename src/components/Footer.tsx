@@ -12,6 +12,12 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
 import { toast } from "sonner";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -20,8 +26,9 @@ const Footer = () => {
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) {
-      toast.error("Por favor, ingresa tu correo electrónico.");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+      toast.error("Por favor, ingresa un correo electrónico válido.");
       return;
     }
 
@@ -135,8 +142,8 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
+          {/* Quick Links - DESKTOP */}
+          <div className="hidden md:block">
             <h4 className="text-lg font-bold mb-6 flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-primary" />
               Explora
@@ -161,8 +168,8 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact Info */}
-          <div>
+          {/* Contact Info - DESKTOP */}
+          <div className="hidden md:block">
             <h4 className="text-lg font-bold mb-6 flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-accent" />
               Contacto
@@ -187,6 +194,74 @@ const Footer = () => {
                 </span>
               </li>
             </ul>
+          </div>
+
+          {/* Mobile Accordion (Explora & Contacto) */}
+          <div className="md:hidden">
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="explora" className="border-white/5">
+                <AccordionTrigger className="text-lg font-bold hover:no-underline py-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                    Explora
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <ul className="space-y-4 pt-2 pb-4">
+                    {[
+                      { name: "Sistemas (Systems)", href: "/systems" },
+                      { name: "Estrategia (Journey)", href: "/journey" },
+                      { name: "Laboratorio (Lab)", href: "/lab" },
+                      { name: "Cursos Educativos", href: "/courses" },
+                    ].map((link, i) => (
+                      <li key={i}>
+                        <Link
+                          to={link.href}
+                          className="text-muted-foreground hover:text-primary flex items-center gap-2 transition-colors"
+                        >
+                          <ChevronRight className="w-4 h-4 text-primary" />
+                          {link.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem
+                value="contacto"
+                className="border-white/5 border-b-0"
+              >
+                <AccordionTrigger className="text-lg font-bold hover:no-underline py-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-accent" />
+                    Contacto
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <ul className="space-y-6 pt-2 pb-4">
+                    <li className="flex gap-4">
+                      <MapPin className="w-5 h-5 text-primary flex-shrink-0" />
+                      <span className="text-muted-foreground text-sm italic">
+                        Sede Principal: Trujillo, La Libertad - Perú
+                      </span>
+                    </li>
+                    <li className="flex gap-4">
+                      <Mail className="w-5 h-5 text-primary flex-shrink-0" />
+                      <span className="text-muted-foreground text-sm italic">
+                        sysjol@outlook.es
+                      </span>
+                    </li>
+                    <li className="flex gap-4">
+                      <Phone className="w-5 h-5 text-primary flex-shrink-0" />
+                      <span className="text-muted-foreground text-sm italic">
+                        +51 980 609 176
+                      </span>
+                    </li>
+                  </ul>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
 
           <div className="space-y-6">
