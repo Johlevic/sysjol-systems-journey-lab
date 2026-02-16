@@ -7,7 +7,18 @@ import {
   Server,
   BookOpen,
   FlaskConical,
+  X,
+  ChevronRight,
+  Globe,
+  Compass,
 } from "lucide-react";
+import {
+  FaTiktok,
+  FaInstagram,
+  FaFacebookF,
+  FaYoutube,
+  FaXTwitter,
+} from "react-icons/fa6";
 import {
   Command,
   CommandDialog,
@@ -18,9 +29,146 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
-import { Drawer, DrawerContent } from "@/components/ui/drawer";
 import { searchData, SearchItem } from "@/data/search-data";
 import { cn } from "@/lib/utils";
+
+// Shared Social Links
+const socialLinks = [
+  {
+    icon: FaInstagram,
+    href: "https://instagram.com/sysjol",
+    label: "Instagram",
+    username: "@sysjol",
+    color: "hover:text-pink-500",
+  },
+  {
+    icon: FaXTwitter,
+    href: "https://x.com/sysjol",
+    label: "X (Twitter)",
+    username: "@sysjol",
+    color: "hover:text-white",
+  },
+  {
+    icon: FaFacebookF,
+    href: "https://facebook.com/SysJoL",
+    label: "Facebook",
+    username: "SysJoL",
+    color: "hover:text-blue-600",
+  },
+  {
+    icon: FaYoutube,
+    href: "https://youtube.com/@Sysjol-01",
+    label: "YouTube",
+    username: "@Sysjol-01",
+    color: "hover:text-red-600",
+  },
+  {
+    icon: FaTiktok,
+    href: "https://tiktok.com/@sysjol",
+    label: "TikTok",
+    username: "@sysjol",
+    color: "hover:text-cyan-400",
+  },
+];
+
+// Shared Explore Content
+const ExploreContent = ({ onSelect }: { onSelect: (href: string) => void }) => (
+  <div className="flex-1 overflow-y-auto px-10 py-4 space-y-6 animate-in fade-in zoom-in-95 duration-300 custom-scrollbar">
+    {/* Suggestions */}
+    <div className="space-y-2">
+      <h3 className="text-[10px] uppercase font-bold tracking-[0.2em] text-primary/60 px-1">
+        Sugerencias para ti
+      </h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {[
+          {
+            title: "Cursos Premium",
+            desc: "Aprende con expertos",
+            icon: BookOpen,
+            href: "/courses",
+            color: "text-orange-400",
+          },
+          {
+            title: "Estrategia Digital",
+            desc: "Impulsa tu negocio",
+            icon: Server,
+            href: "/journey",
+            color: "text-blue-400",
+          },
+        ].map((item, idx) => (
+          <button
+            key={idx}
+            onClick={() => onSelect(item.href)}
+            className="flex items-center gap-3 p-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all text-left group"
+          >
+            <div className="w-10 h-10 rounded-xl bg-background/50 flex items-center justify-center border border-white/5 flex-shrink-0 group-hover:scale-110 transition-transform">
+              <item.icon className={cn("w-5 h-5", item.color)} />
+            </div>
+            <div>
+              <p className="font-bold text-sm">{item.title}</p>
+              <p className="text-[11px] text-muted-foreground">{item.desc}</p>
+            </div>
+            <ChevronRight className="ml-auto w-3.5 h-3.5 text-muted-foreground/30" />
+          </button>
+        ))}
+      </div>
+    </div>
+
+    {/* Quick Links */}
+    <div className="space-y-3">
+      <h3 className="text-[10px] uppercase font-bold tracking-[0.2em] text-primary/60 px-1">
+        Enlaces Rápidos
+      </h3>
+      <div className="flex flex-wrap gap-2 text-sm italic">
+        {[
+          { name: "Sistemas", href: "/systems" },
+          { name: "Estrategia", href: "/journey" },
+          { name: "Laboratorio", href: "/lab" },
+          { name: "Cursos", href: "/courses" },
+        ].map((link, idx) => (
+          <button
+            key={idx}
+            onClick={() => onSelect(link.href)}
+            className="px-3.5 py-1.5 rounded-full border border-white/10 hover:border-primary/40 hover:text-primary transition-all bg-white/5 font-medium text-xs"
+          >
+            {link.name}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    {/* Social Media */}
+    <div className="space-y-3 pb-8">
+      <h3 className="text-[10px] uppercase font-bold tracking-[0.2em] text-primary/60 px-1">
+        Nuestra Comunidad
+      </h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        {socialLinks.map((social, idx) => (
+          <a
+            key={idx}
+            href={social.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 p-3 rounded-2xl bg-background/40 hover:bg-background/60 border border-white/5 transition-all group"
+          >
+            <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/5 flex-shrink-0 group-hover:scale-110 transition-transform">
+              <social.icon className={cn("w-5 h-5", social.color)} />
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center justify-between">
+                <p className="font-bold text-sm">{social.label}</p>
+                <Globe className="w-3 h-3 text-muted-foreground/30 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </div>
+              <p className="text-[11px] text-muted-foreground">
+                {social.username}
+              </p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+);
 
 // Separate functional component for the search content to maintain stability
 const SearchContent = ({
@@ -41,135 +189,95 @@ const SearchContent = ({
   const getIcon = (category: string) => {
     switch (category) {
       case "Páginas":
-        return <FileText className="mr-2 h-4 w-4 text-blue-400" />;
+        return <FileText className="mr-2.5 h-4.5 w-4.5 text-blue-400" />;
       case "Sistemas":
-        return <Server className="mr-2 h-4 w-4 text-purple-400" />;
+        return <Server className="mr-2.5 h-4.5 w-4.5 text-purple-400" />;
       case "Cursos":
-        return <BookOpen className="mr-2 h-4 w-4 text-orange-400" />;
+        return <BookOpen className="mr-2.5 h-4.5 w-4.5 text-orange-400" />;
       case "Laboratorio":
-        return <FlaskConical className="mr-2 h-4 w-4 text-emerald-400" />;
+        return <FlaskConical className="mr-2.5 h-4.5 w-4.5 text-emerald-400" />;
       default:
-        return <Search className="mr-2 h-4 w-4" />;
+        return <Search className="mr-2.5 h-4.5 w-4.5" />;
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && results.length > 0) {
+      onSelect(results[0].href);
     }
   };
 
   return (
     <Command
       shouldFilter={false}
-      className="flex flex-col border-none bg-transparent overflow-hidden h-full justify-end"
+      className="flex flex-col border-none bg-transparent overflow-hidden h-full"
+      onKeyDown={handleKeyDown}
     >
-      {/* Mobile Top Header - Fixed while scrolling results */}
-      <div className="md:hidden px-6 py-3 border-b border-white/5 bg-background/20 backdrop-blur-3xl sticky top-0 z-30 flex items-center justify-between shrink-0">
-        <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-primary/60">
-          {query ? "Sistema de Búsqueda" : "Centro de Navegación"}
-        </span>
-        <div className="flex gap-1">
-          <div className="w-1 h-1 rounded-full bg-primary/40 animate-pulse" />
-          <div className="w-1 h-1 rounded-full bg-primary/40 animate-pulse delay-75" />
-          <div className="w-1 h-1 rounded-full bg-primary/40 animate-pulse delay-150" />
-        </div>
+      <div className="flex-1 overflow-hidden flex flex-col">
+        <CommandList className="w-full overflow-y-auto pt-1 pb-4 flex-1 max-h-none custom-scrollbar pb-6">
+          {isSearching ? (
+            <div className="flex flex-col items-center justify-center py-10 animate-in fade-in duration-300">
+              <Loader2 className="h-8 w-8 animate-spin text-primary opacity-50 mb-3" />
+              <span className="text-sm text-muted-foreground font-display font-medium tracking-wide">
+                Consultando base de conocimientos...
+              </span>
+            </div>
+          ) : (
+            <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 px-6 md:px-10">
+              {query.trim() !== "" && results.length === 0 && (
+                <CommandEmpty className="py-10 text-center text-muted-foreground">
+                  No se encontraron resultados para "{query}".
+                </CommandEmpty>
+              )}
+
+              {results.length > 0 ? (
+                <CommandGroup heading="Resultados de búsqueda">
+                  {results.map((item, idx) => (
+                    <CommandItem
+                      key={`${item.href}-${idx}`}
+                      onSelect={() => onSelect(item.href)}
+                      className="flex flex-col items-start py-3 px-5 cursor-pointer group hover:bg-white/5 rounded-xl transition-all mb-1.5 border border-transparent hover:border-white/5"
+                    >
+                      <div className="flex items-center w-full">
+                        {getIcon(item.category)}
+                        <span className="font-display font-bold text-foreground group-hover:text-primary transition-colors text-base">
+                          {item.title}
+                        </span>
+                        <span className="ml-auto text-[9px] uppercase font-bold tracking-[0.2em] bg-muted/50 px-2.5 py-0.5 rounded-full opacity-60">
+                          {item.category}
+                        </span>
+                      </div>
+                      <p className="text-[12px] text-muted-foreground ml-7 line-clamp-1 italic pt-0.5 group-hover:text-foreground/70">
+                        {item.description}
+                      </p>
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              ) : null}
+            </div>
+          )}
+        </CommandList>
       </div>
 
-      <CommandList className="w-full h-auto max-h-[calc(100%-140px)] overflow-y-auto pt-2 pb-2 scrollbar-hide">
-        {isSearching ? (
-          <div className="flex flex-col items-center justify-center py-12 animate-in fade-in duration-300">
-            <Loader2 className="h-8 w-8 animate-spin text-primary opacity-50 mb-4" />
-            <span className="text-sm text-muted-foreground font-display font-medium tracking-wide">
-              Consultando base de conocimientos...
-            </span>
-          </div>
-        ) : (
-          <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-            {query.trim() !== "" && results.length === 0 && (
-              <CommandEmpty className="py-12 text-center text-muted-foreground">
-                No se encontraron resultados para "{query}".
-              </CommandEmpty>
-            )}
-
-            {results.length > 0 ? (
-              <CommandGroup heading="Resultados de búsqueda">
-                {results.map((item, idx) => (
-                  <CommandItem
-                    key={`${item.href}-${idx}`}
-                    onSelect={() => onSelect(item.href)}
-                    className="flex flex-col items-start py-4 px-4 cursor-pointer group hover:bg-white/5 mx-2 rounded-xl transition-all"
-                  >
-                    <div className="flex items-center w-full">
-                      {getIcon(item.category)}
-                      <span className="font-display font-bold text-foreground group-hover:text-primary transition-colors text-base">
-                        {item.title}
-                      </span>
-                      <span className="ml-auto text-[10px] uppercase font-bold tracking-widest bg-muted px-2 py-0.5 rounded-lg opacity-40">
-                        {item.category}
-                      </span>
-                    </div>
-                    <p className="text-xs text-muted-foreground ml-6 line-clamp-1 italic pt-1 group-hover:text-foreground/70">
-                      {item.description}
-                    </p>
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            ) : query.trim() === "" ? (
-              <>
-                <CommandGroup heading="Sugerencias">
-                  <CommandItem
-                    onSelect={() => onSelect("/courses")}
-                    className="cursor-pointer py-3 rounded-xl mx-2"
-                  >
-                    <BookOpen className="mr-3 h-5 w-5 text-orange-400" />
-                    <span className="font-medium">Explorar Cursos Premium</span>
-                  </CommandItem>
-                  <CommandItem
-                    onSelect={() => onSelect("/lab")}
-                    className="cursor-pointer py-3 rounded-xl mx-2"
-                  >
-                    <FlaskConical className="mr-3 h-5 w-5 text-emerald-400" />
-                    <span className="font-medium">Ver Proyectos del Lab</span>
-                  </CommandItem>
-                </CommandGroup>
-                <CommandSeparator className="my-2 bg-white/5" />
-                <CommandGroup heading="Enlaces Rápidos">
-                  <CommandItem
-                    onSelect={() => onSelect("/systems")}
-                    className="cursor-pointer py-3 rounded-xl mx-2"
-                  >
-                    <Server className="mr-3 h-5 w-5 text-purple-400" />
-                    <span className="font-medium">
-                      Infraestructura & Backend
-                    </span>
-                  </CommandItem>
-                  <CommandItem
-                    onSelect={() => onSelect("/journey")}
-                    className="cursor-pointer py-3 rounded-xl mx-2"
-                  >
-                    <FileText className="mr-3 h-5 w-5 text-blue-400" />
-                    <span className="font-medium">Consultoría Digital</span>
-                  </CommandItem>
-                </CommandGroup>
-              </>
-            ) : null}
-          </div>
-        )}
-      </CommandList>
-      <div className="border-t border-white/10 bg-background/50 backdrop-blur-md z-20 shrink-0">
+      <div className="border-t border-white/10 bg-background/50 backdrop-blur-md z-20 shrink-0 px-6 md:px-10">
         <CommandInput
           placeholder="Busca servicios, cursos o proyectos..."
           value={query}
           onValueChange={onQueryChange}
-          className="text-lg md:text-base h-16 md:h-12 border-none outline-none focus:ring-0"
+          className="text-base md:text-sm h-14 md:h-12 border-none outline-none focus:ring-0"
         />
       </div>
       {isDesktop && (
-        <div className="border-t border-border/10 p-3 flex justify-between items-center bg-muted/20">
+        <div className="border-t border-white/5 p-2.5 flex justify-between items-center bg-muted/20 px-10 shrink-0">
           <div className="flex gap-4">
             <div className="flex items-center text-[10px] text-muted-foreground uppercase font-bold tracking-widest opacity-60">
-              <kbd className="mr-1.5 rounded-lg bg-black/40 px-2 py-0.5 border border-white/10 shadow-inner">
+              <kbd className="mr-1.5 rounded-lg bg-black/40 px-2 py-0.5 border border-white/10 shadow-inner text-white font-mono">
                 Enter
               </kbd>{" "}
               ir
             </div>
             <div className="flex items-center text-[10px] text-muted-foreground uppercase font-bold tracking-widest opacity-60">
-              <kbd className="mr-1.5 rounded-lg bg-black/40 px-2 py-0.5 border border-white/10 shadow-inner">
+              <kbd className="mr-1.5 rounded-lg bg-black/40 px-2 py-0.5 border border-white/10 shadow-inner text-white font-mono">
                 ↑↓
               </kbd>{" "}
               mover
@@ -199,6 +307,7 @@ export const SearchGlobal = ({
   const [isSearching, setIsSearching] = useState(false);
   const [results, setResults] = useState<SearchItem[]>([]);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [activeTab, setActiveTab] = useState<"search" | "explore">("search");
 
   useEffect(() => {
     const handleResize = () => setIsDesktop(window.innerWidth >= 768);
@@ -218,7 +327,6 @@ export const SearchGlobal = ({
     return () => document.removeEventListener("keydown", down);
   }, [setOpen]);
 
-  // Debounced search logic to simulate loading
   useEffect(() => {
     if (query.trim() === "") {
       setResults([]);
@@ -227,6 +335,7 @@ export const SearchGlobal = ({
     }
 
     setIsSearching(true);
+    setActiveTab("search"); // Switch to search tab when typing
     const timeout = setTimeout(() => {
       const searchTerm = query.toLowerCase().trim();
       const filtered = searchData.filter(
@@ -254,34 +363,139 @@ export const SearchGlobal = ({
 
   const handleOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
-    if (!newOpen) setQuery("");
+    if (!newOpen) {
+      setQuery("");
+      setActiveTab("search");
+    }
   };
+
+  // Prevent scroll leakage on mobile
+  useEffect(() => {
+    if (open && !isDesktop) {
+      const originalStyle = window.getComputedStyle(document.body).overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = originalStyle;
+      };
+    }
+  }, [open, isDesktop]);
+
+  const TabBar = () => (
+    <div className="px-6 py-1.5 md:px-10 md:pb-3 md:pt-0">
+      <div className="flex bg-white/5 rounded-xl md:rounded-xl p-0.5 border border-white/5 shadow-inner">
+        <button
+          onClick={() => setActiveTab("search")}
+          className={cn(
+            "flex-1 py-2 md:py-2 px-6 rounded-lg text-[13px] font-bold flex items-center justify-center gap-2 transition-all",
+            activeTab === "search"
+              ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
+              : "text-muted-foreground hover:bg-white/5",
+          )}
+        >
+          <Search className="w-3.5 h-3.5" />
+          Búsqueda
+        </button>
+        <button
+          onClick={() => setActiveTab("explore")}
+          className={cn(
+            "flex-1 py-2 md:py-2 px-6 rounded-lg text-[13px] font-bold flex items-center justify-center gap-2 transition-all",
+            activeTab === "explore"
+              ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
+              : "text-muted-foreground hover:bg-white/5",
+          )}
+        >
+          <Compass className="w-3.5 h-3.5" />
+          Explorar
+        </button>
+      </div>
+    </div>
+  );
 
   if (isDesktop) {
     return (
       <CommandDialog
         open={open}
         onOpenChange={handleOpenChange}
-        className="top-24 translate-y-0 max-w-2xl border-white/10 shadow-2xl backdrop-blur-3xl bg-background/90"
+        className="top-[10%] translate-y-0 max-w-4xl border-white/10 shadow-2xl backdrop-blur-3xl bg-background/90 overflow-hidden rounded-[32px] md:h-[75vh] md:max-h-[700px] flex flex-col [&>button:last-child]:hidden"
       >
-        <SearchContent
-          query={query}
-          onQueryChange={setQuery}
-          isSearching={isSearching}
-          results={results}
-          onSelect={handleSelect}
-          isDesktop={isDesktop}
-        />
+        <div className="flex flex-col h-full overflow-hidden">
+          {/* Super Compact Custom Header */}
+          <div className="px-10 py-4 flex items-center justify-between border-b border-white/5 shrink-0">
+            <div className="flex items-center gap-3.5">
+              <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shadow-inner border border-white/5">
+                <img src="/favicon.png" alt="Logo" className="w-5 h-5" />
+              </div>
+              <div>
+                <span className="text-xl font-display font-bold text-foreground block tracking-tight">
+                  SysJoL Search
+                </span>
+                <span className="text-[9px] uppercase font-bold tracking-[0.3em] text-primary/70">
+                  Multimodal Navigator
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={() => handleOpenChange(false)}
+              className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10 transition-all border border-white/5 group shadow-sm active:scale-95"
+            >
+              <X className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+            </button>
+          </div>
+
+          {/* Super Compact Tabs */}
+          <div className="pt-4 shrink-0">
+            <TabBar />
+          </div>
+
+          {/* Content Area */}
+          <div className="flex-1 overflow-hidden flex flex-col">
+            <div className="flex-1 overflow-hidden flex flex-col">
+              {activeTab === "search" ? (
+                <SearchContent
+                  query={query}
+                  onQueryChange={setQuery}
+                  isSearching={isSearching}
+                  results={results}
+                  onSelect={handleSelect}
+                  isDesktop={isDesktop}
+                />
+              ) : (
+                <ExploreContent onSelect={handleSelect} />
+              )}
+            </div>
+          </div>
+        </div>
       </CommandDialog>
     );
   }
 
+  if (!open) return null;
+
   return (
-    <Drawer open={open} onOpenChange={handleOpenChange} shouldScaleBackground>
-      <DrawerContent className="bg-background/95 backdrop-blur-3xl border-white/10 h-[96dvh] rounded-t-[32px] overflow-hidden">
-        <div className="px-1 pt-2 h-full flex flex-col overflow-hidden">
-          <div className="mx-auto my-2 h-1.5 w-12 rounded-full bg-white/10 shrink-0" />
-          <div className="flex-1 overflow-hidden flex flex-col">
+    <div className="fixed inset-0 z-[100] bg-background animate-in fade-in duration-300 flex flex-col md:hidden">
+      {/* Top Header Mobile */}
+      <div className="px-6 py-6 flex items-center justify-between border-b border-white/5">
+        <div className="flex items-center gap-3">
+          <img src="/favicon.png" alt="Logo" className="w-8 h-8" />
+          <span className="text-xl font-display font-bold text-gradient">
+            SysJoL Menu
+          </span>
+        </div>
+        <button
+          onClick={() => handleOpenChange(false)}
+          className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors"
+        >
+          <X className="w-5 h-5 text-muted-foreground" />
+        </button>
+      </div>
+
+      {/* Mobile Tabs */}
+      <TabBar />
+
+      {/* Content Area Mobile */}
+      <div className="flex-1 overflow-hidden flex flex-col translate-y-2 animate-in slide-in-from-bottom-4 duration-500">
+        <div className="flex-1 overflow-hidden flex flex-col">
+          {activeTab === "search" ? (
             <SearchContent
               query={query}
               onQueryChange={setQuery}
@@ -290,9 +504,11 @@ export const SearchGlobal = ({
               onSelect={handleSelect}
               isDesktop={isDesktop}
             />
-          </div>
+          ) : (
+            <ExploreContent onSelect={handleSelect} />
+          )}
         </div>
-      </DrawerContent>
-    </Drawer>
+      </div>
+    </div>
   );
 };

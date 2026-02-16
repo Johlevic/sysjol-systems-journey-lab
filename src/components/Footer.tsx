@@ -9,7 +9,15 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FaWhatsapp, FaGithub } from "react-icons/fa";
+import {
+  FaWhatsapp,
+  FaGithub,
+  FaInstagram,
+  FaFacebookF,
+  FaYoutube,
+  FaTiktok,
+} from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
 import { toast } from "sonner";
@@ -19,6 +27,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { cn } from "@/lib/utils";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -89,6 +98,39 @@ const Footer = () => {
     }
   };
 
+  const socialLinks = [
+    {
+      icon: FaInstagram,
+      href: "https://instagram.com/sysjol",
+      label: "Instagram",
+      color: "hover:text-pink-500",
+    },
+    {
+      icon: FaXTwitter,
+      href: "https://x.com/sysjol",
+      label: "X",
+      color: "hover:text-white",
+    },
+    {
+      icon: FaFacebookF,
+      href: "https://facebook.com/SysJoL",
+      label: "Facebook",
+      color: "hover:text-blue-600",
+    },
+    {
+      icon: FaYoutube,
+      href: "https://youtube.com/@Sysjol-01",
+      label: "YouTube",
+      color: "hover:text-red-600",
+    },
+    {
+      icon: FaTiktok,
+      href: "https://tiktok.com/@sysjol",
+      label: "TikTok",
+      color: "hover:text-cyan-400",
+    },
+  ];
+
   return (
     <footer className="relative bg-card/30 border-t border-white/5 pt-20 pb-10 overflow-hidden">
       {/* Background Decor */}
@@ -154,10 +196,10 @@ const Footer = () => {
             </h4>
             <ul className="space-y-4">
               {[
-                { name: "Sistemas (Systems)", href: "/systems" },
-                { name: "Estrategia (Journey)", href: "/journey" },
-                { name: "Laboratorio (Lab)", href: "/lab" },
-                { name: "Cursos Educativos", href: "/courses" },
+                { name: "Sistemas", href: "/systems" },
+                { name: "Estrategia", href: "/journey" },
+                { name: "Laboratorio", href: "/lab" },
+                { name: "Cursos", href: "/courses" },
               ].map((link, i) => (
                 <li key={i}>
                   <Link
@@ -213,10 +255,10 @@ const Footer = () => {
                 <AccordionContent>
                   <ul className="space-y-4 pt-2 pb-4">
                     {[
-                      { name: "Sistemas (Systems)", href: "/systems" },
-                      { name: "Estrategia (Journey)", href: "/journey" },
-                      { name: "Laboratorio (Lab)", href: "/lab" },
-                      { name: "Cursos Educativos", href: "/courses" },
+                      { name: "Sistemas", href: "/systems" },
+                      { name: "Estrategia", href: "/journey" },
+                      { name: "Laboratorio", href: "/lab" },
+                      { name: "Cursos", href: "/courses" },
                     ].map((link, i) => (
                       <li key={i}>
                         <Link
@@ -265,6 +307,36 @@ const Footer = () => {
                   </ul>
                 </AccordionContent>
               </AccordionItem>
+
+              <AccordionItem
+                value="social"
+                className="border-white/5 border-b-0"
+              >
+                <AccordionTrigger className="text-lg font-bold hover:no-underline py-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                    Redes Sociales
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="flex flex-wrap gap-4 pt-2 pb-4">
+                    {socialLinks.map((social, index) => (
+                      <a
+                        key={index}
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={cn(
+                          "w-10 h-10 rounded-xl bg-background/50 border border-white/5 flex items-center justify-center text-muted-foreground transition-all duration-300",
+                          social.color,
+                        )}
+                      >
+                        <social.icon className="w-5 h-5" />
+                      </a>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
             </Accordion>
           </div>
 
@@ -297,6 +369,26 @@ const Footer = () => {
                 )}
               </button>
             </form>
+
+            {/* Desktop Social Icons */}
+            <div className="hidden md:flex items-center gap-4 pt-2">
+              {socialLinks.map((social, index) => (
+                <a
+                  key={index}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(
+                    "w-8 h-8 rounded-lg bg-background/40 border border-white/5 flex items-center justify-center text-muted-foreground transition-all duration-300",
+                    social.color,
+                    "hover:scale-110 hover:bg-background/60",
+                  )}
+                  title={social.label}
+                >
+                  <social.icon className="w-4 h-4" />
+                </a>
+              ))}
+            </div>
           </div>
         </div>
 
