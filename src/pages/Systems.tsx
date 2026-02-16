@@ -228,7 +228,7 @@ const Systems = () => {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="flex-1 space-y-8">
-              <h2 className="text-4xl md:text-5xl font-display font-bold leading-tight">
+              <h2 className="text-3xl md:text-5xl font-display font-bold leading-tight">
                 Arquitectura <br />
                 <span className="text-primary">Limpia y Escalable</span>
               </h2>
@@ -291,12 +291,12 @@ const Systems = () => {
       {/* Final CTA */}
       <section className="py-24 relative overflow-hidden">
         <div className="container px-4 md:px-6 relative z-10 text-center flex flex-col items-center justify-center">
-          <h2 className="text-3xl md:text-5xl font-display font-bold mb-8 italic">
+          <h2 className="text-2xl md:text-5xl font-display font-bold mb-8 italic">
             ¿Listo para escalar al siguiente nivel?
           </h2>
           <Button
             size="lg"
-            className="rounded-full px-12 h-16 text-xl font-bold bg-[#25D366] hover:bg-[#128C7E] text-white border-none shadow-lg shadow-green-500/20 hover:shadow-green-500/40 transition-all"
+            className="rounded-full px-10 h-14 text-xl font-bold bg-[#25D366] hover:bg-[#128C7E] text-white border-none shadow-lg shadow-green-500/20 hover:shadow-green-500/40 transition-all"
             onClick={handleContact}
           >
             Hablemos por WhatsApp

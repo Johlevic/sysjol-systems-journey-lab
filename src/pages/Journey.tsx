@@ -171,7 +171,7 @@ const Journey = () => {
           </div>
 
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold mb-8 animate-fade-up">
+            <h1 className="text-4xl md:text-7xl lg:text-8xl font-display font-bold mb-8 animate-fade-up">
               Tu Viaje a la{" "}
               <span className="text-gradient-purple">Excelencia</span>
             </h1>
@@ -239,7 +239,7 @@ const Journey = () => {
                 <Users className="w-4 h-4" />
                 Acompañamiento Experto
               </div>
-              <h2 className="text-4xl md:text-5xl font-display font-bold leading-tight">
+              <h2 className="text-3xl md:text-5xl font-display font-bold leading-tight">
                 Impulsado por <br />
                 <span className="text-gradient-purple">Talento Humano</span>
               </h2>
@@ -330,7 +330,7 @@ const Journey = () => {
               </div>
             </div>
             <div className="flex-1 space-y-8">
-              <h2 className="text-4xl md:text-5xl font-display font-bold leading-tight">
+              <h2 className="text-3xl md:text-5xl font-display font-bold leading-tight">
                 Resultados que <br />
                 <span className="text-gradient">Hablan Solos</span>
               </h2>
@@ -362,12 +362,12 @@ const Journey = () => {
       <section className="py-24 relative overflow-hidden bg-accent/5">
         <div className="container px-4 md:px-6 relative z-10 text-center flex flex-col items-center justify-center">
           <Compass className="w-16 h-16 text-accent mx-auto mb-8 animate-pulse" />
-          <h2 className="text-3xl md:text-5xl font-display font-bold mb-8 italic">
+          <h2 className="text-2xl md:text-5xl font-display font-bold mb-8 italic">
             ¿Iniciamos el viaje juntos?
           </h2>
           <Button
             size="lg"
-            className="rounded-full px-12 h-16 text-xl font-bold bg-[#25D366] hover:bg-[#128C7E] text-white border-none shadow-lg shadow-green-500/20 hover:shadow-green-500/40 transition-all"
+            className="rounded-full px-10 h-14 text-xl font-bold bg-[#25D366] hover:bg-[#128C7E] text-white border-none shadow-lg shadow-green-500/20 hover:shadow-green-500/40 transition-all"
             onClick={handleContact}
           >
             Hablemos por WhatsApp

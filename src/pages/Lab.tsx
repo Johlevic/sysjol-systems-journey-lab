@@ -242,7 +242,7 @@ const Lab = () => {
           </div>
 
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold mb-8 animate-fade-up">
+            <h1 className="text-4xl md:text-7xl lg:text-8xl font-display font-bold mb-8 animate-fade-up">
               SysJoL <span className="text-gradient">Lab</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-12 leading-relaxed animate-fade-up [animation-delay:200ms] italic">
@@ -448,16 +448,16 @@ const Lab = () => {
       <section className="py-24 relative overflow-hidden">
         <div className="container px-4 md:px-6 relative z-10 text-center">
           <FlaskConical className="w-16 h-16 text-primary mx-auto mb-8 animate-pulse" />
-          <h2 className="text-3xl md:text-5xl font-display font-bold mb-8 italic">
+          <h2 className="text-2xl md:text-5xl font-display font-bold mb-8 italic">
             ¿Tienes un proyecto desafiante?
           </h2>
           <Button
             size="lg"
-            className="rounded-full px-12 h-16 text-xl font-bold bg-primary hover:scale-105 transition-all hover:shadow-[0_0_40px_rgba(0,149,255,0.4)]"
+            className="rounded-full px-10 h-14 text-xl font-bold bg-[#25D366] hover:bg-[#128C7E] text-white border-none shadow-lg shadow-green-500/20 hover:shadow-green-500/40 transition-all"
             onClick={handleContact}
           >
-            Hablemos hoy mismo
-            <FaWhatsapp className="w-5 h-5 mr-2 group-hover/btn:scale-110 transition-transform" />
+            Hablemos por WhatsApp
+            <FaWhatsapp className="ml-3 w-10 h-10" />
           </Button>
         </div>
       </section>

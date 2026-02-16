@@ -45,7 +45,7 @@ const Courses = () => {
           </div>
 
           <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-display font-bold mb-6">
+            <h1 className="text-3xl md:text-6xl font-display font-bold mb-6">
               Catálogo de{" "}
               <span className="text-gradient">Especializaciones</span>
             </h1>

@@ -132,19 +132,19 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative bg-card/30 border-t border-white/5 pt-20 pb-10 overflow-hidden">
+    <footer className="relative bg-card/30 border-t border-white/5 pt-10 pb-10 overflow-hidden">
       {/* Background Decor */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px] -z-10 translate-x-1/2 -translate-y-1/2" />
 
       <div className="container px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand Column */}
-          <div className="space-y-6">
+          <div className="space-y-3">
             <Link to="/" className="flex items-center gap-3 group">
               <img
                 src="/favicon.png"
                 alt="SysJoL Logo"
-                className="w-10 h-10 group-hover:scale-110 transition-transform duration-300"
+                className="w-20 h-auto group-hover:scale-110 transition-transform duration-300"
               />
               <span className="text-3xl font-display font-bold text-gradient">
                 SysJoL
@@ -190,7 +190,7 @@ const Footer = () => {
 
           {/* Quick Links - DESKTOP */}
           <div className="hidden md:block">
-            <h4 className="text-lg font-bold mb-6 flex items-center gap-2">
+            <h4 className="text-lg font-bold mb-6 flex items-center gap-2 border-b  border-blue-400 py-2">
               <div className="w-2 h-2 rounded-full bg-primary" />
               Explora
             </h4>
@@ -216,7 +216,7 @@ const Footer = () => {
 
           {/* Contact Info - DESKTOP */}
           <div className="hidden md:block">
-            <h4 className="text-lg font-bold mb-6 flex items-center gap-2">
+            <h4 className="text-lg font-bold mb-6 flex items-center gap-2 border-b border-accent py-2">
               <div className="w-2 h-2 rounded-full bg-accent" />
               Contacto
             </h4>
@@ -341,7 +341,7 @@ const Footer = () => {
           </div>
 
           <div className="space-y-6">
-            <h4 className="text-lg font-bold mb-6 italic text-gradient">
+            <h4 className="text-lg font-bold mb-6 italic text-gradient border-b border-blue-400 py-2">
               Únete a la Vanguardia
             </h4>
             <p className="text-sm text-muted-foreground">
@@ -394,20 +394,20 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-muted-foreground font-medium uppercase tracking-[0.2em]">
-          <p>
+          <p className="text-center text-sm">
             © {currentYear} <span className="text-primary">SysJoL</span>. Todos
             los derechos reservados.
           </p>
           <div className="flex gap-8">
             <Link
               to="/privacy-policy"
-              className="hover:text-primary transition-colors"
+              className="hover:text-primary transition-colors text-start text-xs"
             >
               Política de Privacidad
             </Link>
             <Link
               to="/terms-of-service"
-              className="hover:text-primary transition-colors"
+              className="hover:text-primary transition-colors text-end text-xs"
             >
               Términos de Servicio
             </Link>
