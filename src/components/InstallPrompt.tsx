@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { X, Download, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useLocation } from "react-router-dom";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -11,29 +12,66 @@ const InstallPrompt = () => {
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
   const [showPrompt, setShowPrompt] = useState(false);
+  const location = useLocation();
+  const routeChangeCount = useRef(0);
 
   useEffect(() => {
-    // Check if user has already dismissed or installed
+    routeChangeCount.current += 1;
+    checkPromptEligibility();
+  }, [location]);
+
+  const checkPromptEligibility = () => {
+    // 1. Check if already dismissed or installed
     const dismissed = localStorage.getItem("pwa-install-dismissed");
     const isStandalone = window.matchMedia(
       "(display-mode: standalone)",
     ).matches;
 
     if (dismissed || isStandalone) {
+      setShowPrompt(false);
       return;
     }
 
+    // 2. Check cookie consent
+    const cookieConsent = localStorage.getItem("cookie-consent");
+    if (!cookieConsent) {
+      // If no decision on cookies yet, don't show PWA prompt
+      setShowPrompt(false);
+      return;
+    }
+
+    // 3. Check navigation count (wait for 3rd page view)
+    if (routeChangeCount.current < 3) {
+      setShowPrompt(false);
+      return;
+    }
+
+    // If we have a deferred prompt and all conditions met, show it
+    if (deferredPrompt) {
+      setShowPrompt(true);
+    }
+  };
+
+  useEffect(() => {
     const handler = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
-      // Show prompt after 3 seconds
-      setTimeout(() => setShowPrompt(true), 3000);
+      // We don't show it immediately here, we wait for the route/cookie checks
+      // checkPromptEligibility() will be called by the location effect or we can call it here too
+      // but deferredPrompt state update will trigger a re-render, so let's use an effect on deferredPrompt
     };
 
     window.addEventListener("beforeinstallprompt", handler);
 
     return () => window.removeEventListener("beforeinstallprompt", handler);
   }, []);
+
+  // When deferredPrompt is set, re-check eligibility
+  useEffect(() => {
+    if (deferredPrompt) {
+      checkPromptEligibility();
+    }
+  }, [deferredPrompt]);
 
   const handleInstall = async () => {
     if (!deferredPrompt) return;

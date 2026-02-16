@@ -15,6 +15,7 @@ import Lab from "./pages/Lab";
 
 import TermsOfService from "./pages/TermsOfService";
 import ScrollToTop from "./components/ScrollToTop";
+import InstallPrompt from "./components/InstallPrompt";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <InstallPrompt />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

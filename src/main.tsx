@@ -1,6 +1,5 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
-import InstallPrompt from "./components/InstallPrompt.tsx";
 import CookieConsent from "./components/CookieConsent.tsx";
 import { initGA } from "./lib/analytics.ts";
 import "./index.css";
@@ -28,7 +27,6 @@ if ("serviceWorker" in navigator) {
 createRoot(document.getElementById("root")!).render(
   <>
     <App />
-    <InstallPrompt />
     <CookieConsent />
   </>,
 );
