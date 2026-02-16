@@ -214,7 +214,7 @@ const SearchContent = ({
       onKeyDown={handleKeyDown}
     >
       <div className="flex-1 overflow-hidden flex flex-col">
-        <CommandList className="w-full overflow-y-auto pt-1 pb-4 flex-1 max-h-none custom-scrollbar pb-6">
+        <CommandList className="w-full overflow-y-auto pt-1 pb-4 flex-1 max-h-none custom-scrollbar ">
           {isSearching ? (
             <div className="flex flex-col items-center justify-center py-10 animate-in fade-in duration-300">
               <Loader2 className="h-8 w-8 animate-spin text-primary opacity-50 mb-3" />
@@ -473,8 +473,8 @@ export const SearchGlobal = ({
 
   return (
     <div className="fixed inset-0 z-[100] bg-background animate-in fade-in duration-300 flex flex-col md:hidden">
-      {/* Top Header Mobile */}
-      <div className="px-6 py-6 flex items-center justify-between border-b border-white/5">
+      {/* Fixed Top Header Mobile */}
+      <div className="px-6 py-4 flex items-center justify-between border-b border-white/5 shrink-0">
         <div className="flex items-center gap-3">
           <img src="/favicon.png" alt="Logo" className="w-8 h-8" />
           <span className="text-xl font-display font-bold text-gradient">
@@ -489,21 +489,115 @@ export const SearchGlobal = ({
         </button>
       </div>
 
-      {/* Mobile Tabs */}
-      <TabBar />
+      {/* Fixed Mobile Tabs */}
+      <div className="shrink-0">
+        <TabBar />
+      </div>
 
-      {/* Content Area Mobile */}
-      <div className="flex-1 overflow-hidden flex flex-col translate-y-2 animate-in slide-in-from-bottom-4 duration-500">
-        <div className="flex-1 overflow-hidden flex flex-col">
+      {/* Fixed Search Input (only visible in search tab) */}
+      {activeTab === "search" && (
+        <div className="border-b border-white/10 bg-background shrink-0 px-6">
+          <input
+            type="search"
+            inputMode="search"
+            enterKeyHint="search"
+            placeholder="Busca servicios, cursos o proyectos..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && results.length > 0) {
+                handleSelect(results[0].href);
+              }
+            }}
+            className="w-full h-12 bg-transparent border-none outline-none text-base placeholder:text-muted-foreground focus:ring-0"
+          />
+        </div>
+      )}
+
+      {/* Scrollable Content Area Mobile */}
+      <div className="flex-1 overflow-hidden flex flex-col">
+        <div className="flex-1 overflow-y-auto custom-scrollbar">
           {activeTab === "search" ? (
-            <SearchContent
-              query={query}
-              onQueryChange={setQuery}
-              isSearching={isSearching}
-              results={results}
-              onSelect={handleSelect}
-              isDesktop={isDesktop}
-            />
+            <Command
+              shouldFilter={false}
+              className="flex flex-col border-none bg-transparent h-full"
+              onKeyDown={(e: React.KeyboardEvent) => {
+                if (e.key === "Enter" && results.length > 0) {
+                  handleSelect(results[0].href);
+                }
+              }}
+            >
+              <CommandList className="w-full pt-1 pb-4">
+                {isSearching ? (
+                  <div className="flex flex-col items-center justify-center py-10 animate-in fade-in duration-300">
+                    <Loader2 className="h-8 w-8 animate-spin text-primary opacity-50 mb-3" />
+                    <span className="text-sm text-muted-foreground font-display font-medium tracking-wide">
+                      Consultando base de conocimientos...
+                    </span>
+                  </div>
+                ) : (
+                  <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 px-6">
+                    {query.trim() !== "" && results.length === 0 && (
+                      <CommandEmpty className="py-10 text-center text-muted-foreground">
+                        No se encontraron resultados para "{query}".
+                      </CommandEmpty>
+                    )}
+
+                    {results.length > 0 ? (
+                      <CommandGroup heading="Resultados de búsqueda">
+                        {results.map((item, idx) => {
+                          const getIcon = (category: string) => {
+                            switch (category) {
+                              case "Páginas":
+                                return (
+                                  <FileText className="mr-2.5 h-4.5 w-4.5 text-blue-400" />
+                                );
+                              case "Sistemas":
+                                return (
+                                  <Server className="mr-2.5 h-4.5 w-4.5 text-purple-400" />
+                                );
+                              case "Cursos":
+                                return (
+                                  <BookOpen className="mr-2.5 h-4.5 w-4.5 text-orange-400" />
+                                );
+                              case "Laboratorio":
+                                return (
+                                  <FlaskConical className="mr-2.5 h-4.5 w-4.5 text-emerald-400" />
+                                );
+                              default:
+                                return (
+                                  <Search className="mr-2.5 h-4.5 w-4.5" />
+                                );
+                            }
+                          };
+
+                          return (
+                            <CommandItem
+                              key={`${item.href}-${idx}`}
+                              onSelect={() => handleSelect(item.href)}
+                              className="flex flex-col items-start py-3 px-5 cursor-pointer group hover:bg-white/5 rounded-xl transition-all mb-1.5 border border-transparent hover:border-white/5"
+                            >
+                              <div className="flex items-center w-full">
+                                {getIcon(item.category)}
+                                <span className="font-display font-bold text-foreground group-hover:text-primary transition-colors text-base">
+                                  {item.title}
+                                </span>
+                                <span className="ml-auto text-[9px] uppercase font-bold tracking-[0.2em] bg-muted/50 px-2.5 py-0.5 rounded-full opacity-60">
+                                  {item.category}
+                                </span>
+                              </div>
+                              <p className="text-[12px] text-muted-foreground ml-7 line-clamp-1 italic pt-0.5 group-hover:text-foreground/70">
+                                {item.description}
+                              </p>
+                            </CommandItem>
+                          );
+                        })}
+                      </CommandGroup>
+                    ) : null}
+                  </div>
+                )}
+              </CommandList>
+            </Command>
           ) : (
             <ExploreContent onSelect={handleSelect} />
           )}
