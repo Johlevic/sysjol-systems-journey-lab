@@ -28,10 +28,10 @@ const HeroSection = () => {
                 <Search className="w-5 h-5" />
               </div>
               <div className="flex flex-col items-start">
-                <span className="text-sm font-display font-bold tracking-wide uppercase opacity-50 group-hover:opacity-100 transition-opacity">
+                <span className="text-xs font-display font-bold tracking-wide uppercase opacity-50 group-hover:opacity-100 transition-opacity">
                   Centro de Comandos
                 </span>
-                <span className="text-lg font-medium">
+                <span className="text-sm font-medium">
                   ¿Qué deseas aprender hoy?
                 </span>
               </div>
