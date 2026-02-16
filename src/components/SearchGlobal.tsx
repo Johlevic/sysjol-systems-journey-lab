@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import {
   Search,
@@ -471,13 +472,28 @@ export const SearchGlobal = ({
 
   if (!open) return null;
 
-  return (
-    <div className="fixed inset-0 z-[100] bg-background animate-in fade-in duration-300 flex flex-col md:hidden">
+  return createPortal(
+    <div
+      className="md:hidden"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "hsl(222, 47%, 6%)",
+        zIndex: 99999,
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       {/* Fixed Top Header Mobile */}
-      <div className="px-6 py-4 flex items-center justify-between border-b border-white/5 shrink-0">
+      <div className="px-6 py-6 flex items-center justify-between border-b border-white/5 shrink-0">
         <div className="flex items-center gap-3">
-          <img src="/favicon.png" alt="Logo" className="w-8 h-8" />
-          <span className="text-xl font-display font-bold text-gradient">
+          <img src="/favicon.png" alt="SysJoL" className="w-8 h-8" />
+          <span className="text-lg font-display font-bold text-gradient">
             SysJoL Menu
           </span>
         </div>
@@ -520,14 +536,14 @@ export const SearchGlobal = ({
           {activeTab === "search" ? (
             <Command
               shouldFilter={false}
-              className="flex flex-col border-none bg-transparent h-full"
+              className="flex flex-col border-none bg-transparent h-full overflow-hidden"
               onKeyDown={(e: React.KeyboardEvent) => {
                 if (e.key === "Enter" && results.length > 0) {
                   handleSelect(results[0].href);
                 }
               }}
             >
-              <CommandList className="w-full pt-1 pb-4">
+              <CommandList className="flex-1 w-full pt-1 pb-4 overflow-y-auto custom-scrollbar">
                 {isSearching ? (
                   <div className="flex flex-col items-center justify-center py-10 animate-in fade-in duration-300">
                     <Loader2 className="h-8 w-8 animate-spin text-primary opacity-50 mb-3" />
@@ -536,7 +552,7 @@ export const SearchGlobal = ({
                     </span>
                   </div>
                 ) : (
-                  <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 px-6">
+                  <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 px-6 pb-20">
                     {query.trim() !== "" && results.length === 0 && (
                       <CommandEmpty className="py-10 text-center text-muted-foreground">
                         No se encontraron resultados para "{query}".
@@ -603,6 +619,7 @@ export const SearchGlobal = ({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };

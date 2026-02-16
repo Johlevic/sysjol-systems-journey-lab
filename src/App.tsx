@@ -16,6 +16,8 @@ import Lab from "./pages/Lab";
 import TermsOfService from "./pages/TermsOfService";
 import ScrollToTop from "./components/ScrollToTop";
 import InstallPrompt from "./components/InstallPrompt";
+import { OfflineIndicator } from "./components/OfflineIndicator";
+import { UpdatePrompt } from "./components/UpdatePrompt";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +26,8 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <OfflineIndicator />
+      <UpdatePrompt />
       <BrowserRouter
         future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
       >
