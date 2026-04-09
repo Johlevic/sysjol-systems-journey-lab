@@ -180,9 +180,13 @@ const CapturaAppPage = () => {
                   href={CAPTURA_APP_DOWNLOAD_URL}
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label="Descargar CapturaApp para Windows"
                 >
                   <Download className="mr-2 h-5 w-5" />
-                  Descargar para Windows
+                  <span className="sm:hidden">Descargar</span>
+                  <span className="hidden sm:inline">
+                    Descargar para Windows
+                  </span>
                 </a>
               </Button>
               <Button variant="outline" size="lg" asChild>
@@ -414,9 +418,11 @@ const CapturaAppPage = () => {
               href={CAPTURA_APP_DOWNLOAD_URL}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Descargar CapturaApp para Windows"
             >
               <Download className="mr-2 h-4 w-4" />
-              Obtener para Windows
+              <span className="sm:hidden">Descargar</span>
+              <span className="hidden sm:inline">Obtener para Windows</span>
             </a>
           </Button>
         </div>

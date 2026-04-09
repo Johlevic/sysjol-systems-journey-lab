@@ -91,8 +91,14 @@ const Navbar = () => {
           : "bg-transparent py-5",
       )}
     >
-      <div className="container px-4 md:px-6">
-        <div className="grid grid-cols-2 md:grid-cols-3 items-center">
+      <div
+        className="w-full"
+        style={{
+          paddingLeft: "env(safe-area-inset-left, 0px)",
+          paddingRight: "env(safe-area-inset-right, 0px)",
+        }}
+      >
+        <div className="mx-auto grid w-full max-w-[1400px] grid-cols-2 items-center px-5 sm:px-6 md:px-8 md:grid-cols-3 lg:px-10">
           {/* Column 1: Logo (Left) */}
           <div className="flex justify-start">
             <Link to="/" className="flex items-center gap-2 group">

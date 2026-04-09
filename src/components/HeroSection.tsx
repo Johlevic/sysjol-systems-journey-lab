@@ -11,7 +11,7 @@ import {
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden geometric-bg pt-24 md:pt-28 pb-16 md:pb-24">
+    <section className="relative flex min-h-screen items-center overflow-x-hidden overflow-y-visible geometric-bg pt-[5.5rem] pb-20 sm:pt-24 md:pt-28 md:pb-24">
       <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-[#eb5757]/15 blur-3xl animate-float" />
       <div
         className="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-[#6366f1]/20 blur-3xl animate-float"
@@ -19,14 +19,21 @@ const HeroSection = () => {
       />
       <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--primary)/0.04)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--primary)/0.04)_1px,transparent_1px)] bg-[size:60px_60px]" />
 
-      <div className="container relative z-10 px-4 md:px-6">
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-12 lg:grid lg:grid-cols-[1fr_min(46%,420px)] lg:items-center lg:gap-14">
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+      <div
+        className="relative z-10 w-full"
+        style={{
+          paddingLeft: "env(safe-area-inset-left, 0px)",
+          paddingRight: "env(safe-area-inset-right, 0px)",
+        }}
+      >
+        <div className="mx-auto box-border w-full max-w-6xl px-5 min-[420px]:px-6 sm:px-7 md:px-8 lg:px-10">
+        <div className="flex w-full flex-col gap-10 sm:gap-12 lg:grid lg:grid-cols-[1fr_min(46%,420px)] lg:items-center lg:gap-14">
+          <div className="flex w-full min-w-0 flex-col items-center text-center lg:items-start lg:text-left">
             <div className="w-full max-w-xl animate-fade-up">
               <button
                 type="button"
                 onClick={() => openGlobalSearch()}
-                className="group flex w-full items-center gap-4 rounded-2xl border border-white/10 bg-white/5 px-5 py-3.5 text-left text-muted-foreground shadow-2xl shadow-primary/5 backdrop-blur-md transition-all duration-500 hover:border-[#6366f1]/40 hover:bg-white/10 hover:text-white"
+                className="group flex w-full items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 text-left text-muted-foreground shadow-2xl shadow-primary/5 backdrop-blur-md transition-all duration-500 min-[420px]:gap-4 min-[420px]:px-5 hover:border-[#6366f1]/40 hover:bg-white/10 hover:text-white sm:py-3.5"
               >
                 <div className="rounded-xl bg-[#6366f1]/15 p-2 text-[#a855f7] transition-all duration-500 group-hover:bg-[#6366f1] group-hover:text-white">
                   <Search className="h-5 w-5" />
@@ -35,7 +42,7 @@ const HeroSection = () => {
                   <span className="font-display text-[10px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100">
                     Centro de comandos
                   </span>
-                  <span className="truncate text-sm font-medium">
+                  <span className="line-clamp-2 text-sm font-medium min-[420px]:line-clamp-1 min-[420px]:truncate">
                     Busca en SysJoL o salta a CapturaApp…
                   </span>
                 </div>
@@ -46,7 +53,7 @@ const HeroSection = () => {
             </div>
 
             <div className="mt-8 flex animate-fade-up-delay-1 flex-col items-center gap-6 lg:items-start">
-              <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-card/60 px-3 py-2 pr-4 backdrop-blur-md">
+              <div className="inline-flex max-w-full items-center gap-3 rounded-full border border-white/10 bg-card/60 px-3 py-2 pr-3 backdrop-blur-md min-[420px]:pr-4">
                 <img
                   src={CAPTURA_APP_LOGO_PNG}
                   alt=""
@@ -64,15 +71,15 @@ const HeroSection = () => {
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <h1 className="font-display text-4xl font-bold tracking-tight md:text-5xl lg:text-[3.25rem] lg:leading-tight">
+              <div className="w-full min-w-0 space-y-4">
+                <h1 className="font-display text-[1.65rem] font-bold leading-[1.2] tracking-tight min-[380px]:text-3xl sm:text-4xl sm:leading-tight md:text-5xl lg:text-[3.25rem] lg:leading-tight">
                   Graba, captura y{" "}
                   <span className="bg-gradient-to-r from-[#eb5757] via-[#6366f1] to-[#a855f7] bg-clip-text text-transparent">
                     organiza
                   </span>{" "}
                   sin salir de una sola app
                 </h1>
-                <p className="max-w-xl text-lg font-light leading-relaxed text-muted-foreground md:text-xl">
+                <p className="max-w-xl text-base font-light leading-relaxed text-muted-foreground min-[420px]:text-lg md:text-xl">
                   Aplicación nativa con Tauri 2 y Rust: pantalla completa,
                   ventana o región, cuenta atrás, overlay, webcam circular,
                   audio del sistema y galería local. Tus archivos se quedan en
@@ -84,22 +91,26 @@ const HeroSection = () => {
                 <Button
                   variant="hero"
                   size="lg"
-                  className="w-full border-none bg-[#eb5757] font-semibold text-white shadow-lg shadow-[#eb5757]/25 hover:bg-[#eb5757]/90 hover:shadow-[#eb5757]/40 sm:w-auto"
+                  className="w-full min-h-12 border-none bg-[#eb5757] px-4 text-sm font-semibold text-white shadow-lg shadow-[#eb5757]/25 min-[420px]:min-h-0 min-[420px]:px-8 min-[420px]:text-base hover:bg-[#eb5757]/90 hover:shadow-[#eb5757]/40 sm:w-auto"
                   asChild
                 >
                   <a
                     href={CAPTURA_APP_DOWNLOAD_URL}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="Descargar CapturaApp para Windows"
                   >
                     <Download className="mr-2 h-5 w-5 shrink-0" />
-                    Descargar para Windows
+                    <span className="sm:hidden">Descargar</span>
+                    <span className="hidden sm:inline">
+                      Descargar para Windows
+                    </span>
                   </a>
                 </Button>
                 <Button
                   variant="outline"
                   size="lg"
-                  className="w-full border-[#6366f1]/50 text-[#a855f7] hover:bg-[#6366f1]/10 sm:w-auto"
+                  className="w-full min-h-12 border-[#6366f1]/50 px-4 text-sm text-[#a855f7] min-[420px]:min-h-0 min-[420px]:px-8 min-[420px]:text-base hover:bg-[#6366f1]/10 sm:w-auto"
                   asChild
                 >
                   <Link to="/capturaapp">
@@ -109,7 +120,7 @@ const HeroSection = () => {
                 </Button>
               </div>
 
-              <dl className="grid w-full max-w-xl grid-cols-2 gap-3 pt-4 sm:grid-cols-4 lg:max-w-none">
+              <dl className="grid w-full max-w-xl grid-cols-2 gap-2.5 pt-4 min-[420px]:gap-3 sm:grid-cols-4 lg:max-w-none">
                 {[
                   { k: "Ventana", v: "860×560 px" },
                   { k: "Salida", v: "1080p · 30 FPS" },
@@ -118,7 +129,7 @@ const HeroSection = () => {
                 ].map((row) => (
                   <div
                     key={row.k}
-                    className="rounded-2xl border border-white/5 bg-secondary/30 p-3 text-center backdrop-blur-sm transition-colors hover:border-[#6366f1]/25 lg:text-left"
+                    className="rounded-2xl border border-white/5 bg-secondary/30 p-2.5 text-center backdrop-blur-sm transition-colors min-[420px]:p-3 hover:border-[#6366f1]/25 lg:text-left"
                   >
                     <dt className="text-[10px] font-display font-bold uppercase tracking-wider text-muted-foreground">
                       {row.k}
@@ -132,13 +143,13 @@ const HeroSection = () => {
             </div>
           </div>
 
-          <div className="animate-fade-up-delay-2 mx-auto w-full max-w-md lg:max-w-none">
+          <div className="animate-fade-up-delay-2 mx-auto w-full max-w-md min-w-0 lg:max-w-none">
             <div className="relative">
               <div
-                className="pointer-events-none absolute -inset-4 rounded-3xl bg-gradient-to-br from-[#eb5757]/20 via-[#6366f1]/15 to-[#a855f7]/20 opacity-80 blur-2xl"
+                className="pointer-events-none absolute -inset-2 rounded-3xl bg-gradient-to-br from-[#eb5757]/20 via-[#6366f1]/15 to-[#a855f7]/20 opacity-80 blur-2xl min-[420px]:-inset-4"
                 aria-hidden
               />
-              <div className="relative rounded-2xl border border-white/10 bg-card/40 p-3 shadow-2xl backdrop-blur-md">
+              <div className="relative rounded-2xl border border-white/10 bg-card/40 p-2.5 shadow-2xl backdrop-blur-md min-[420px]:p-3 sm:rounded-2xl">
                 <div className="mb-2 flex items-center justify-between gap-2 px-1">
                   <div className="flex gap-1.5">
                     <span className="h-2.5 w-2.5 rounded-full bg-[#eb5757]/80" />
@@ -153,6 +164,7 @@ const HeroSection = () => {
               </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>
