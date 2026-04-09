@@ -30,6 +30,9 @@ export default {
         foreground: "hsl(var(--foreground))",
         "python-blue": "#306998",
         "python-yellow": "#FFD43B",
+        "captura-coral": "#eb5757",
+        "captura-indigo": "#6366f1",
+        "captura-violet": "#a855f7",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

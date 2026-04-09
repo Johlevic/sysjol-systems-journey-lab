@@ -1,8 +1,34 @@
 export interface SearchItem {
   title: string;
   description: string;
-  category: "Páginas" | "Sistemas" | "Cursos" | "Laboratorio";
+  category:
+    | "Páginas"
+    | "Sistemas"
+    | "Cursos"
+    | "Laboratorio"
+    | "Producto";
   href: string;
+  /** Sinónimos y términos técnicos para la búsqueda (no se muestran en la UI). */
+  keywords?: string;
+}
+
+/** Coincidencia por palabras: cada término del usuario debe aparecer en título, descripción, categoría o keywords. */
+export function searchItemMatchesQuery(
+  item: SearchItem,
+  rawQuery: string,
+): boolean {
+  const q = rawQuery.toLowerCase().trim();
+  if (!q) return false;
+  const haystack = [
+    item.title,
+    item.description,
+    item.category,
+    item.keywords ?? "",
+  ]
+    .join(" ")
+    .toLowerCase();
+  const tokens = q.split(/\s+/).filter(Boolean);
+  return tokens.every((t) => haystack.includes(t));
 }
 
 export const searchData: SearchItem[] = [
@@ -36,6 +62,22 @@ export const searchData: SearchItem[] = [
     description: "Explora nuestra oferta educativa técnica.",
     category: "Páginas",
     href: "/courses",
+  },
+  {
+    title: "CapturaApp",
+    description:
+      "App de escritorio Windows: grabación, capturas, galería y dashboard local.",
+    category: "Producto",
+    href: "/capturaapp",
+    keywords:
+      "captura app capturaapp com.capturaapp.dev 0.1.0 tauri tauri2 rust vite " +
+      "javascript tailwind escritorio windows nativa descargar instalador exe " +
+      "grabar grabación grabacion pantalla screencast screen recording vídeo video " +
+      "webcam camara cámara micrófono microfono audio cpal scap overlay " +
+      "screenshot screenshots captura capturas png región region ventana fullscreen " +
+      "galería galeria dashboard almacenamiento espacio disco local privacidad sin nube " +
+      "860x560 800x520 splash descargar windows público public capturaapp carpeta salida " +
+      "johlevic github.com/Johlevic/captura-app captura-app instalador setup exe",
   },
 
   // Sistemas (Capabilities)

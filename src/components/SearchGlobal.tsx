@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import {
@@ -12,6 +12,7 @@ import {
   ChevronRight,
   Globe,
   Compass,
+  Monitor,
 } from "lucide-react";
 import {
   FaTiktok,
@@ -30,7 +31,11 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
-import { searchData, SearchItem } from "@/data/search-data";
+import {
+  searchData,
+  SearchItem,
+  searchItemMatchesQuery,
+} from "@/data/search-data";
 import { cn } from "@/lib/utils";
 
 // Shared Social Links
@@ -80,8 +85,15 @@ const ExploreContent = ({ onSelect }: { onSelect: (href: string) => void }) => (
       <h3 className="text-[10px] uppercase font-bold tracking-[0.2em] text-primary/60 px-1">
         Sugerencias para ti
       </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         {[
+          {
+            title: "CapturaApp",
+            desc: "Grabación y capturas en Windows",
+            icon: Monitor,
+            href: "/capturaapp",
+            color: "text-red-400",
+          },
           {
             title: "Cursos Premium",
             desc: "Aprende con expertos",
@@ -122,6 +134,7 @@ const ExploreContent = ({ onSelect }: { onSelect: (href: string) => void }) => (
       </h3>
       <div className="flex flex-wrap gap-2 text-sm italic">
         {[
+          { name: "CapturaApp", href: "/capturaapp" },
           { name: "Sistemas", href: "/systems" },
           { name: "Estrategia", href: "/journey" },
           { name: "Laboratorio", href: "/lab" },
@@ -179,6 +192,7 @@ const SearchContent = ({
   results,
   onSelect,
   isDesktop,
+  searchInputRef,
 }: {
   query: string;
   onQueryChange: (q: string) => void;
@@ -186,6 +200,7 @@ const SearchContent = ({
   results: SearchItem[];
   onSelect: (href: string) => void;
   isDesktop: boolean;
+  searchInputRef: React.RefObject<HTMLInputElement | null>;
 }) => {
   const getIcon = (category: string) => {
     switch (category) {
@@ -197,6 +212,8 @@ const SearchContent = ({
         return <BookOpen className="mr-2.5 h-4.5 w-4.5 text-orange-400" />;
       case "Laboratorio":
         return <FlaskConical className="mr-2.5 h-4.5 w-4.5 text-emerald-400" />;
+      case "Producto":
+        return <Monitor className="mr-2.5 h-4.5 w-4.5 text-red-400" />;
       default:
         return <Search className="mr-2.5 h-4.5 w-4.5" />;
     }
@@ -262,7 +279,8 @@ const SearchContent = ({
 
       <div className="border-t border-white/10 bg-background/50 backdrop-blur-md z-20 shrink-0 px-6 md:px-10">
         <CommandInput
-          placeholder="Busca servicios, cursos o proyectos..."
+          ref={searchInputRef}
+          placeholder="Busca servicios, cursos, CapturaApp, grabación…"
           value={query}
           onValueChange={onQueryChange}
           className="text-base md:text-sm h-14 md:h-12 border-none outline-none focus:ring-0"
@@ -309,6 +327,7 @@ export const SearchGlobal = ({
   const [results, setResults] = useState<SearchItem[]>([]);
   const [isDesktop, setIsDesktop] = useState(false);
   const [activeTab, setActiveTab] = useState<"search" | "explore">("search");
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     const handleResize = () => setIsDesktop(window.innerWidth >= 768);
@@ -338,12 +357,9 @@ export const SearchGlobal = ({
     setIsSearching(true);
     setActiveTab("search"); // Switch to search tab when typing
     const timeout = setTimeout(() => {
-      const searchTerm = query.toLowerCase().trim();
-      const filtered = searchData.filter(
-        (item) =>
-          item.title.toLowerCase().includes(searchTerm) ||
-          item.description.toLowerCase().includes(searchTerm) ||
-          item.category.toLowerCase().includes(searchTerm),
+      const searchTerm = query.trim();
+      const filtered = searchData.filter((item) =>
+        searchItemMatchesQuery(item, searchTerm),
       );
       setResults(filtered);
       setIsSearching(false);
@@ -369,6 +385,17 @@ export const SearchGlobal = ({
       setActiveTab("search");
     }
   };
+
+  const focusSearchInput = useCallback(() => {
+    requestAnimationFrame(() => {
+      searchInputRef.current?.focus();
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!open || activeTab !== "search") return;
+    focusSearchInput();
+  }, [open, activeTab, focusSearchInput]);
 
   // Prevent scroll leakage on mobile
   useEffect(() => {
@@ -417,6 +444,10 @@ export const SearchGlobal = ({
       <CommandDialog
         open={open}
         onOpenChange={handleOpenChange}
+        onOpenAutoFocus={(e) => {
+          e.preventDefault();
+          focusSearchInput();
+        }}
         className="top-[10%] translate-y-0 max-w-4xl border-white/10 shadow-2xl backdrop-blur-3xl bg-background/90 overflow-hidden rounded-[32px] md:h-[75vh] md:max-h-[700px] flex flex-col [&>button:last-child]:hidden"
       >
         <div className="flex flex-col h-full overflow-hidden">
@@ -459,6 +490,7 @@ export const SearchGlobal = ({
                   results={results}
                   onSelect={handleSelect}
                   isDesktop={isDesktop}
+                  searchInputRef={searchInputRef}
                 />
               ) : (
                 <ExploreContent onSelect={handleSelect} />
@@ -514,10 +546,11 @@ export const SearchGlobal = ({
       {activeTab === "search" && (
         <div className="border-b border-white/10 bg-background shrink-0 px-6">
           <input
+            ref={searchInputRef}
             type="search"
             inputMode="search"
             enterKeyHint="search"
-            placeholder="Busca servicios, cursos o proyectos..."
+            placeholder="Busca servicios, cursos, CapturaApp, grabación…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={(e) => {
@@ -579,6 +612,10 @@ export const SearchGlobal = ({
                               case "Laboratorio":
                                 return (
                                   <FlaskConical className="mr-2.5 h-4.5 w-4.5 text-emerald-400" />
+                                );
+                              case "Producto":
+                                return (
+                                  <Monitor className="mr-2.5 h-4.5 w-4.5 text-red-400" />
                                 );
                               default:
                                 return (

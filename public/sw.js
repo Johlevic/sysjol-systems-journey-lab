@@ -1,5 +1,5 @@
 // Service Worker for SysJoL PWA
-const CACHE_NAME = "sysjol-v1";
+const CACHE_NAME = "sysjol-v2";
 const urlsToCache = ["/", "/index.html", "/favicon.png", "/manifest.json"];
 
 // Install event - cache essential files

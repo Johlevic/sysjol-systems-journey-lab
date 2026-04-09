@@ -196,6 +196,7 @@ const Footer = () => {
             </h4>
             <ul className="space-y-4">
               {[
+                { name: "CapturaApp", href: "/capturaapp" },
                 { name: "Sistemas", href: "/systems" },
                 { name: "Estrategia", href: "/journey" },
                 { name: "Laboratorio", href: "/lab" },
@@ -255,6 +256,7 @@ const Footer = () => {
                 <AccordionContent>
                   <ul className="space-y-4 pt-2 pb-4">
                     {[
+                      { name: "CapturaApp", href: "/capturaapp" },
                       { name: "Sistemas", href: "/systems" },
                       { name: "Estrategia", href: "/journey" },
                       { name: "Laboratorio", href: "/lab" },

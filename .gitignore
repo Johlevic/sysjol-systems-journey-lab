@@ -1,4 +1,18 @@
-# Logs
+# Dependencias
+node_modules
+
+# Salida de build (Vite)
+dist
+dist-ssr
+build
+*.local
+
+# Variables de entorno (secretos / local)
+.env
+.env.*
+!.env.example
+
+# Logs y archivos temporales de herramientas
 logs
 *.log
 npm-debug.log*
@@ -6,20 +20,36 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+build_log.txt
 
-node_modules
-dist
-dist-ssr
-*.local
+# TypeScript / cachés
+*.tsbuildinfo
 
-# Editor directories and files
+# Tests / cobertura (si añades Jest/Vitest más adelante)
+coverage
+*.lcov
+
+# Lockfile alternativo (el proyecto usa npm / package-lock.json)
+bun.lockb
+
+# Editor / IDE
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-.env
+
+# Cursor (metadatos locales del workspace, si aparecen en la raíz)
+.cursor/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Despliegue local (Vercel, Netlify, etc.)
+.vercel
+.netlify

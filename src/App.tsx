@@ -12,6 +12,7 @@ import Courses from "./pages/Courses";
 import Systems from "./pages/Systems";
 import Journey from "./pages/Journey";
 import Lab from "./pages/Lab";
+import CapturaAppPage from "./pages/CapturaAppPage";
 
 import TermsOfService from "./pages/TermsOfService";
 import ScrollToTop from "./components/ScrollToTop";
@@ -41,6 +42,7 @@ const App = () => (
           <Route path="/systems" element={<Systems />} />
           <Route path="/journey" element={<Journey />} />
           <Route path="/lab" element={<Lab />} />
+          <Route path="/capturaapp" element={<CapturaAppPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

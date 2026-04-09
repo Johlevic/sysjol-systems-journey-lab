@@ -10,6 +10,7 @@ import {
   MessageSquare,
   BookOpen,
   Search,
+  Video,
 } from "lucide-react";
 import { SearchGlobal } from "./SearchGlobal";
 import { useSearchState } from "@/hooks/use-search";
@@ -149,6 +150,19 @@ const Navbar = () => {
 
                 <NavigationMenuItem>
                   <Link
+                    to="/capturaapp"
+                    className={cn(
+                      navigationMenuTriggerStyle(),
+                      "bg-transparent hover:bg-white/5 transition-colors flex items-center gap-2",
+                    )}
+                  >
+                    <Video className="w-4 h-4 text-captura-coral" />
+                    CapturaApp
+                  </Link>
+                </NavigationMenuItem>
+
+                <NavigationMenuItem>
+                  <Link
                     to="/courses"
                     className={cn(
                       navigationMenuTriggerStyle(),
@@ -238,6 +252,29 @@ const Navbar = () => {
                             </div>
                           </a>
                         ))}
+
+                        <div className="h-px bg-white/5 my-4" />
+
+                        <p className="px-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">
+                          Producto
+                        </p>
+                        <Link
+                          to="/capturaapp"
+                          className="flex items-center gap-4 px-3 py-4 rounded-xl hover:bg-white/5 transition-colors group"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          <div className="p-2 rounded-lg bg-captura-coral/10 group-hover:bg-captura-coral/20 transition-colors">
+                            <Video className="w-5 h-5 text-captura-coral" />
+                          </div>
+                          <div>
+                            <p className="font-bold text-sm text-foreground">
+                              CapturaApp
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              Grabación y capturas en Windows
+                            </p>
+                          </div>
+                        </Link>
 
                         <div className="h-px bg-white/5 my-4" />
 
