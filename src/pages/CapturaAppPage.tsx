@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ import {
   CAPTURA_APP_BUNDLE_ID,
   CAPTURA_APP_LOGO_PNG,
   CAPTURA_APP_DOWNLOAD_URL,
+  CAPTURA_APP_LATEST_JSON_PATH,
   CAPTURA_APP_REPO_URL,
   CAPTURA_APP_VERSION,
 } from "@/components/captura-app/constants";
@@ -128,13 +130,51 @@ const faqItems = [
     q: "¿Cuánto ocupa la ventana principal?",
     a: "Tamaño lógico 860×560 px (mínimo 800×520), barra de título personalizada sin decoraciones nativas y transparencia. Al arranque, splash ~420×280 y luego la ventana principal centrada.",
   },
+  {
+    q: "¿Existe un JSON con la versión y la URL del instalador?",
+    a: `Sí. En la raíz del sitio (fuera de la ruta SPA /capturaapp) está el archivo latest.json para que la propia web o la app de escritorio puedan hacer fetch: misma base que sysjol.onrender.com más la ruta ${CAPTURA_APP_LATEST_JSON_PATH}. Contiene version y downloadUrl; actualízalo junto a cada release publicado.`,
+  },
 ];
 
+const CAPTURA_APP_META_DESCRIPTION = `CapturaApp ${CAPTURA_APP_VERSION}: app de escritorio para Windows que graba pantalla, ventana o región, captura en PNG, ofrece galería y dashboard, audio por micrófono y webcam en overlay. Datos en local, sin nube obligatoria. Descarga del instalador .exe.`;
+
 const CapturaAppPage = () => {
+  useEffect(() => {
+    const prevTitle = document.title;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    const prevDesc = metaDesc?.getAttribute("content") ?? "";
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    const prevOgTitle = ogTitle?.getAttribute("content") ?? "";
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    const prevOgDesc = ogDesc?.getAttribute("content") ?? "";
+    const twTitle = document.querySelector('meta[name="twitter:title"]');
+    const prevTwTitle = twTitle?.getAttribute("content") ?? "";
+    const twDesc = document.querySelector('meta[name="twitter:description"]');
+    const prevTwDesc = twDesc?.getAttribute("content") ?? "";
+
+    const pageTitle = `CapturaApp ${CAPTURA_APP_VERSION} — Grabación y capturas en Windows | SysJoL`;
+    document.title = pageTitle;
+    metaDesc?.setAttribute("content", CAPTURA_APP_META_DESCRIPTION);
+    ogTitle?.setAttribute("content", pageTitle);
+    ogDesc?.setAttribute("content", CAPTURA_APP_META_DESCRIPTION);
+    twTitle?.setAttribute("content", pageTitle);
+    twDesc?.setAttribute("content", CAPTURA_APP_META_DESCRIPTION);
+
+    return () => {
+      document.title = prevTitle;
+      metaDesc?.setAttribute("content", prevDesc);
+      ogTitle?.setAttribute("content", prevOgTitle);
+      ogDesc?.setAttribute("content", prevOgDesc);
+      twTitle?.setAttribute("content", prevTwTitle);
+      twDesc?.setAttribute("content", prevTwDesc);
+    };
+  }, []);
+
   return (
     <main className="min-h-screen bg-background">
       <Navbar />
 
+      <article>
       <section className="relative border-b border-white/5 pt-28 pb-16 md:pt-32 md:pb-20">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(235,87,87,0.12),transparent_50%),radial-gradient(ellipse_at_bottom_left,rgba(99,102,241,0.12),transparent_45%)]" />
         <div className="container relative z-10 px-4 md:px-6">
@@ -165,9 +205,15 @@ const CapturaAppPage = () => {
               </div>
             </div>
             <p className="max-w-2xl text-lg text-muted-foreground md:text-xl">
-              Una app de escritorio para equipos y creadores que necesitan clips y
-              capturas rápidas, con trazabilidad local y controles que no
-              estorban.
+              Resuelve en una frase la necesidad de{" "}
+              <strong className="font-semibold text-foreground">
+                grabar o capturar pantalla en Windows
+              </strong>{" "}
+              (completa, ventana o región) con audio, webcam opcional en overlay
+              y una galería local para revisar y exportar, sin depender de la nube.
+            </p>
+            <p className="mt-4 text-base font-medium text-foreground">
+              Versión actual: {CAPTURA_APP_VERSION}
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button
@@ -193,6 +239,63 @@ const CapturaAppPage = () => {
                 <Link to="/courses">Ver formación SysJoL</Link>
               </Button>
             </div>
+            <p className="mt-4 max-w-xl text-center text-sm text-muted-foreground">
+              Instalador para Windows: enlace directo al archivo{" "}
+              <code className="rounded bg-muted px-1 py-0.5 text-xs">
+                .exe
+              </code>{" "}
+              (GitHub Releases o rama main, según publicación actual).
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section
+        className="border-b border-white/5 bg-secondary/10 py-14 md:py-16"
+        aria-labelledby="capturaapp-lista-funciones"
+      >
+        <div className="container px-4 md:px-6">
+          <div className="mx-auto max-w-3xl">
+            <h2
+              id="capturaapp-lista-funciones"
+              className="font-display text-2xl font-bold md:text-3xl"
+            >
+              Funcionalidades principales
+            </h2>
+            <p className="mt-2 text-muted-foreground">
+              Lista orientada a quien busca en la página qué hace el producto
+              (también útil para resúmenes automáticos del contenido).
+            </p>
+            <ul className="mt-6 list-disc space-y-2 pl-5 text-sm leading-relaxed text-foreground md:text-base">
+              <li>Grabar pantalla completa, una ventana concreta o una región rectangular</li>
+              <li>Capturas en PNG con la misma lógica de área que la grabación</li>
+              <li>Galería local: listado, borrar, comprimir y exportar desde disco</li>
+              <li>Dashboard con métricas de almacenamiento y vista de actividad reciente</li>
+              <li>Audio: micrófono y audio del sistema según la vista de grabación</li>
+              <li>Webcam en overlay (p. ej. círculo en esquina), opcional y configurable</li>
+              <li>Cuenta atrás y overlays ligeros antes de iniciar la grabación</li>
+            </ul>
+            <h3 className="mt-10 font-display text-lg font-bold md:text-xl">
+              Requisitos del sistema
+            </h3>
+            <p className="mt-2 text-sm text-muted-foreground md:text-base">
+              <strong className="font-medium text-foreground">Windows 10 u 11</strong>{" "}
+              (64 bits). Conexión a Internet solo para descargar el instalador; el
+              uso habitual de la aplicación es en local.
+            </p>
+            <p className="mt-4 text-sm text-muted-foreground md:text-base">
+              <strong className="font-medium text-foreground">Descarga:</strong>{" "}
+              usa el botón «Descargar para Windows» arriba o{" "}
+              <a
+                href={CAPTURA_APP_DOWNLOAD_URL}
+                className="text-captura-indigo underline-offset-4 hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                este enlace al instalador
+              </a>
+              .
+            </p>
           </div>
         </div>
       </section>
@@ -355,9 +458,11 @@ const CapturaAppPage = () => {
                   Privacidad
                 </h2>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  Tus vídeos y capturas no tienen por qué pasar por servidores
-                  externos. Opción de ocultar la app al iniciar grabación para
-                  reducir distracciones en pantalla.
+                  No hay nube obligatoria: vídeos y capturas se guardan en tu
+                  equipo (carpeta configurable). No enviamos tu contenido a
+                  servidores SysJoL por el simple hecho de usar la app. Opción de
+                  ocultar la ventana al iniciar grabación para reducir
+                  distracciones en pantalla.
                 </p>
               </div>
             </div>
@@ -427,6 +532,7 @@ const CapturaAppPage = () => {
           </Button>
         </div>
       </section>
+      </article>
 
       <Footer />
     </main>

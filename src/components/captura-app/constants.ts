@@ -44,3 +44,9 @@ export const CAPTURA_APP_REPO_URL = "https://github.com/Johlevic/captura-app";
  */
 export const CAPTURA_APP_DOWNLOAD_URL =
   "https://github.com/Johlevic/captura-app/raw/main/CapturaApp-0.1.0-Setup.exe";
+
+/**
+ * JSON estático en `public/` (misma raíz que el sitio, no bajo `/capturaapp/`).
+ * Mantener `version` y `downloadUrl` alineados con las constantes de arriba en cada release.
+ */
+export const CAPTURA_APP_LATEST_JSON_PATH = "/capturaapp-latest.json";
