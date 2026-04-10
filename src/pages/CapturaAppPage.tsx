@@ -132,7 +132,11 @@ const faqItems = [
   },
   {
     q: "¿Existe un JSON con la versión y la URL del instalador?",
-    a: `Sí. En la raíz del sitio (fuera de la ruta SPA /capturaapp) está el archivo latest.json para que la propia web o la app de escritorio puedan hacer fetch: misma base que sysjol.onrender.com más la ruta ${CAPTURA_APP_LATEST_JSON_PATH}. Contiene version y downloadUrl; actualízalo junto a cada release publicado.`,
+    a: `Sí. En la raíz del sitio (no bajo /capturaapp/, para que el router no sirva index.html) está el archivo estático capturaapp-latest.json. URL de ejemplo en producción: https://sysjol.onrender.com${CAPTURA_APP_LATEST_JSON_PATH}. Contiene los campos version y downloadUrl; la app de escritorio o scripts pueden hacer fetch ahí. El nombre del archivo es capturaapp-latest.json (no "latest.json" genérico).`,
+  },
+  {
+    q: "¿Qué debo actualizar en cada release de CapturaApp?",
+    a: `Tres sitios en sync: (1) CAPTURA_APP_VERSION y CAPTURA_APP_DOWNLOAD_URL en src/components/captura-app/constants.ts, (2) public/capturaapp-latest.json con la misma version y downloadUrl que el .exe publicado, (3) subir el instalador nuevo a la URL que declares (p. ej. GitHub). Tras el deploy, la landing y el JSON del sitio coinciden.`,
   },
 ];
 
